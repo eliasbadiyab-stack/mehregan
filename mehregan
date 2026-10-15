@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f0b1a">
+<title>مِهرگان — برنامه‌ریز شخصی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --r-sm:14px;--r-md:20px;--r-lg:28px;--r-xl:36px;--r-pill:999px;
+  --t-fast:180ms cubic-bezier(.4,0,.2,1);
+  --t:280ms cubic-bezier(.34,1.2,.64,1);
+  --t-slow:500ms cubic-bezier(.4,0,.2,1);
+  --font:'Vazirmatn',system-ui,sans-serif;
+  --font-display:'Playfair Display','Vazirmatn',serif;
+  --blur:blur(24px) saturate(180%);
+}
+body[data-theme="male"]{--bg-1:#0a0f1e;--bg-2:#111827;--bg-3:#1e293b;--surface:rgba(30,41,59,.55);--surface-2:rgba(51,65,85,.4);--border:rgba(148,163,184,.18);--border-strong:rgba(148,163,184,.32);--text:#f1f5f9;--text-2:#94a3b8;--text-3:#64748b;--accent:#60a5fa;--accent-2:#818cf8;--accent-glow:rgba(96,165,250,.4);--success:#34d399;--warn:#fbbf24;--danger:#f87171;--blob-1:#3b82f6;--blob-2:#8b5cf6;--blob-3:#06b6d4}
+body[data-theme="female"]{--bg-1:#1a0b1e;--bg-2:#2d1b36;--bg-3:#3b2149;--surface:rgba(59,33,73,.55);--surface-2:rgba(80,44,99,.4);--border:rgba(244,114,182,.18);--border-strong:rgba(244,114,182,.32);--text:#fdf2f8;--text-2:#e9a8cc;--text-3:#b87398;--accent:#f472b6;--accent-2:#c084fc;--accent-glow:rgba(244,114,182,.4);--success:#34d399;--warn:#fbbf24;--danger:#f87171;--blob-1:#ec4899;--blob-2:#a855f7;--blob-3:#fb923c}
+body[data-theme="neutral"]{--bg-1:#0f0b1a;--bg-2:#1a1329;--bg-3:#251a3a;--surface:rgba(37,26,58,.55);--surface-2:rgba(52,37,80,.4);--border:rgba(167,139,250,.18);--border-strong:rgba(167,139,250,.32);--text:#ede9fe;--text-2:#c4b5fd;--text-3:#8b7bb8;--accent:#a78bfa;--accent-2:#67e8f9;--accent-glow:rgba(167,139,250,.4);--success:#34d399;--warn:#fbbf24;--danger:#f87171;--blob-1:#8b5cf6;--blob-2:#06b6d4;--blob-3:#f472b6}
+body[data-mode="light"][data-theme="male"]{--bg-1:#f0f4ff;--bg-2:#e0e7ff;--bg-3:#dbeafe;--surface:rgba(255,255,255,.7);--surface-2:rgba(255,255,255,.5);--border:rgba(59,130,246,.2);--border-strong:rgba(59,130,246,.35);--text:#0f172a;--text-2:#475569;--text-3:#94a3b8;--accent:#2563eb;--accent-2:#7c3aed;--accent-glow:rgba(37,99,235,.3)}
+body[data-mode="light"][data-theme="female"]{--bg-1:#fdf2f8;--bg-2:#fce7f3;--bg-3:#fbcfe8;--surface:rgba(255,255,255,.7);--surface-2:rgba(255,255,255,.5);--border:rgba(236,72,153,.2);--border-strong:rgba(236,72,153,.35);--text:#1e1b2e;--text-2:#6b4a5f;--text-3:#a88ba0;--accent:#db2777;--accent-2:#9333ea;--accent-glow:rgba(219,39,119,.3)}
+body[data-mode="light"][data-theme="neutral"]{--bg-1:#f5f3ff;--bg-2:#ede9fe;--bg-3:#ddd6fe;--surface:rgba(255,255,255,.7);--surface-2:rgba(255,255,255,.5);--border:rgba(139,92,246,.2);--border-strong:rgba(139,92,246,.35);--text:#1e1b2e;--text-2:#4c4270;--text-3:#8b7bb8;--accent:#7c3aed;--accent-2:#0891b2;--accent-glow:rgba(124,58,237,.3)}
+html,body{height:100%}
+body{font-family:var(--font);background:var(--bg-1);color:var(--text);line-height:1.75;overflow-x:hidden;transition:background var(--t-slow),color var(--t-slow);position:relative;min-height:100vh;font-weight:400;letter-spacing:-.01em}
+.bg-layer{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.bg-layer::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 0%,var(--bg-2),transparent 60%),radial-gradient(ellipse 60% 80% at 100% 100%,var(--bg-3),transparent 60%),var(--bg-1);transition:background var(--t-slow)}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.45;animation:drift 28s infinite ease-in-out}
+.blob:nth-child(1){width:480px;height:480px;background:var(--blob-1);top:-140px;right:-120px;animation-duration:24s}
+.blob:nth-child(2){width:400px;height:400px;background:var(--blob-2);bottom:-100px;left:-100px;animation-duration:32s;animation-delay:-8s}
+.blob:nth-child(3){width:340px;height:340px;background:var(--blob-3);top:40%;left:35%;animation-duration:38s;animation-delay:-16s;opacity:.28}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(50px,-60px) scale(1.12)}66%{transform:translate(-40px,50px) scale(.92)}}
+.bg-layer::after{content:'';position:absolute;inset:0;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none}
+.glass{background:var(--surface);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:0 8px 32px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.06)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:var(--r-pill);border:none;font-family:var(--font);font-weight:600;font-size:.92rem;cursor:pointer;transition:all var(--t);position:relative;overflow:hidden;white-space:nowrap;letter-spacing:-.01em}
+.btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,.4),transparent 60%);opacity:0;transition:opacity var(--t)}
+.btn:active::after{opacity:.5;transition:opacity 80ms}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 24px -8px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px -8px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.3)}
+.btn-primary:active{transform:translateY(0)}
+.btn-ghost{background:var(--surface-2);border:1px solid var(--border);color:var(--text)}
+.btn-ghost:hover{background:var(--surface);border-color:var(--border-strong)}
+.btn-sm{padding:8px 16px;font-size:.84rem}
+.btn-icon{width:40px;height:40px;padding:0;border-radius:50%;background:var(--surface-2);border:1px solid var(--border);color:var(--text)}
+.btn-icon:hover{background:var(--surface);transform:scale(1.08)}
+.btn-icon:active{transform:scale(.95)}
+.btn-danger{background:linear-gradient(135deg,#f87171,#ef4444);color:#fff}
+.app-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;margin:12px 16px;border-radius:var(--r-pill);position:sticky;top:12px;z-index:90}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem}
+.brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-size:1.2rem;box-shadow:0 6px 16px -4px var(--accent-glow)}
+.brand-text{line-height:1.1}
+.brand-text small{display:block;font-size:.68rem;color:var(--text-3);font-weight:400}
+.header-actions{display:flex;gap:6px;align-items:center}
+.pill-toggle{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-pill);padding:8px 14px;font-family:var(--font);font-weight:700;font-size:.82rem;color:var(--text);cursor:pointer;transition:all var(--t)}
+.pill-toggle:hover{background:var(--surface);border-color:var(--border-strong)}
+.app-shell{display:flex;gap:20px;padding:0 16px 110px;max-width:1400px;margin:0 auto}
+.sidebar{width:236px;flex-shrink:0;padding:14px;position:sticky;top:88px;height:fit-content;display:flex;flex-direction:column;gap:4px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--r-sm);cursor:pointer;font-size:.92rem;font-weight:500;color:var(--text-2);border:none;background:transparent;width:100%;text-align:right;font-family:var(--font);transition:all var(--t);position:relative}
+.nav-item .ico{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--surface-2);font-size:1rem;transition:all var(--t);flex-shrink:0}
+.nav-item:hover{background:var(--surface);color:var(--text)}
+.nav-item:hover .ico{background:var(--accent);color:#fff;transform:scale(1.05)}
+.nav-item.active{background:linear-gradient(135deg,var(--surface),var(--surface-2));color:var(--text);font-weight:600;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.nav-item.active .ico{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 6px 14px -4px var(--accent-glow)}
+.nav-item.active::before{content:'';position:absolute;right:-14px;top:50%;transform:translateY(-50%);width:3px;height:22px;background:var(--accent);border-radius:3px}
+.main{flex:1;min-width:0}
+.page{display:none;animation:pageIn .45s cubic-bezier(.34,1.1,.64,1)}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.page-head{margin-bottom:22px}
+.page-title{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.03em;display:flex;align-items:center;gap:12px;line-height:1.2}
+.page-title .emoji{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));font-size:1.5rem;box-shadow:0 8px 20px -6px var(--accent-glow);flex-shrink:0}
+.page-sub{color:var(--text-2);font-size:.94rem;margin-top:6px}
+.card{padding:22px;border-radius:var(--r-lg);margin-bottom:18px}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.card-title{font-size:1.06rem;font-weight:700;display:flex;align-items:center;gap:10px;letter-spacing:-.02em}
+.card-title .dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:0 0 12px var(--accent-glow)}
+.card-sub{color:var(--text-3);font-size:.84rem;margin-top:2px}
+.empty{padding:36px 20px;text-align:center;color:var(--text-2)}
+.empty .ill{font-size:2.6rem;margin-bottom:12px;opacity:.7;animation:bob 3s infinite ease-in-out}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.empty p{font-size:.92rem;line-height:1.9;max-width:320px;margin:0 auto 6px}
+.empty .hint{color:var(--text-3);font-size:.82rem;margin-top:4px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat{padding:18px;border-radius:var(--r-md);background:var(--surface);border:1px solid var(--border);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);position:relative;overflow:hidden;transition:all var(--t)}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:.6}
+.stat:hover{transform:translateY(-3px);border-color:var(--border-strong)}
+.stat-val{font-size:1.9rem;font-weight:800;line-height:1;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.02em}
+.stat-lbl{font-size:.8rem;color:var(--text-2);margin-top:8px;font-weight:500}
+.field{position:relative;margin-bottom:18px}
+.field input,.field select,.field textarea{width:100%;padding:20px 16px 8px;border-radius:var(--r-sm);border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font-family:var(--font);font-size:.95rem;outline:none;transition:all var(--t);font-weight:500}
+.field textarea{padding-top:24px;min-height:100px;resize:vertical;line-height:1.8}
+.field select{padding-top:22px;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 16px center}
+.field select option{background:var(--bg-2);color:var(--text)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 4px var(--accent-glow)}
+.field label{position:absolute;top:16px;right:16px;font-size:.9rem;color:var(--text-3);pointer-events:none;transition:all var(--t);font-weight:500}
+.field input:focus+label,.field input:not(:placeholder-shown)+label,.field textarea:focus+label,.field textarea:not(:placeholder-shown)+label,.field select+label{top:4px;font-size:.7rem;color:var(--accent);font-weight:700}
+.field-err{color:var(--danger);font-size:.78rem;margin-top:4px;display:none;font-weight:500}
+.field-err.show{display:block;animation:slideDown .3s}
+@keyframes slideDown{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.range-wrap{display:flex;align-items:center;gap:16px;padding:8px 0}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:8px;border-radius:8px;background:var(--surface-2);outline:none;border:1px solid var(--border)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));cursor:pointer;box-shadow:0 4px 12px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.3);border:2px solid var(--bg-1);transition:transform var(--t)}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.range-val{font-size:1.6rem;font-weight:800;min-width:60px;text-align:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.opt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.opt{padding:20px 14px;border-radius:var(--r-md);border:2px solid var(--border);background:var(--surface-2);cursor:pointer;text-align:center;transition:all var(--t);display:flex;flex-direction:column;align-items:center;gap:8px}
+.opt:hover{border-color:var(--border-strong);transform:translateY(-3px)}
+.opt.sel{border-color:var(--accent);background:linear-gradient(135deg,var(--surface),var(--accent-glow));box-shadow:0 8px 24px -8px var(--accent-glow)}
+.opt .ic{font-size:2.2rem}
+.opt .lbl{font-weight:700;font-size:.92rem}
+.opt .desc{font-size:.74rem;color:var(--text-3);line-height:1.5}
+.list-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--r-md);background:var(--surface-2);border:1px solid var(--border);margin-bottom:8px;transition:all var(--t);animation:itemIn .3s}
+@keyframes itemIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.list-item:hover{background:var(--surface);border-color:var(--border-strong);transform:translateX(-2px)}
+.list-item .bar{width:4px;height:40px;border-radius:4px;background:linear-gradient(180deg,var(--accent),var(--accent-2));flex-shrink:0}
+.list-item .body{flex:1;min-width:0}
+.list-item .ttl{font-weight:700;font-size:.95rem;margin-bottom:2px}
+.list-item .meta{font-size:.78rem;color:var(--text-3);display:flex;gap:10px;flex-wrap:wrap}
+.list-item .meta span{display:inline-flex;align-items:center;gap:4px}
+.list-item .del{width:32px;height:32px;border-radius:50%;border:none;background:transparent;color:var(--text-3);cursor:pointer;display:grid;place-items:center;transition:all var(--t);flex-shrink:0;font-size:1rem}
+.list-item .del:hover{background:rgba(248,113,113,.15);color:var(--danger);transform:rotate(90deg)}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:var(--r-pill);font-size:.74rem;font-weight:700;background:var(--surface-2);border:1px solid var(--border);color:var(--text-2)}
+.badge.accent{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent}
+.badge.warn{background:rgba(251,191,36,.18);color:var(--warn);border-color:rgba(251,191,36,.3)}
+.badge.ok{background:rgba(52,211,153,.18);color:var(--success);border-color:rgba(52,211,153,.3)}
+.badge.danger{background:rgba(248,113,113,.18);color:var(--danger);border-color:rgba(248,113,113,.3)}
+.overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:var(--bg-1)}
+.overlay.show{display:flex;animation:fadeIn .35s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.overlay .sheet{width:100%;max-width:540px;max-height:92vh;overflow-y:auto;padding:32px;border-radius:var(--r-xl);position:relative}
+.overlay .sheet::-webkit-scrollbar{width:6px}
+.overlay .sheet::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
+.steps{display:flex;gap:6px;justify-content:center;margin-bottom:28px}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--border-strong);transition:all var(--t)}
+.step-dot.on{width:26px;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.step-dot.done{background:var(--accent)}
+.step{display:none;animation:stepIn .4s cubic-bezier(.34,1.1,.64,1)}
+.step.on{display:block}
+@keyframes stepIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.step h2{font-size:1.4rem;font-weight:800;margin-bottom:8px;letter-spacing:-.02em;line-height:1.3}
+.step .lead{color:var(--text-2);font-size:.92rem;margin-bottom:20px;line-height:1.8}
+.big-emoji{font-size:3.4rem;text-align:center;margin-bottom:14px;animation:pop .6s cubic-bezier(.34,1.5,.64,1)}
+@keyframes pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* ═══ PIN SCREEN RESPONSIVE ═══ */
+.pin-wrap{width:100%;max-width:520px;padding:36px 32px;border-radius:var(--r-xl);text-align:center}
+.pin-dots{display:flex;gap:18px;justify-content:center;margin:28px 0 36px;transition:all var(--t)}
+.pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--accent);transition:all var(--t)}
+.pin-dot.on{background:var(--accent);transform:scale(1.2);box-shadow:0 0 16px var(--accent-glow)}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:300px;margin:0 auto}
+.key{aspect-ratio:1;border-radius:50%;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-size:1.5rem;font-weight:700;cursor:pointer;transition:all var(--t);display:grid;place-items:center;font-family:var(--font);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+.key:hover{background:var(--surface);border-color:var(--accent);transform:translateY(-2px)}
+.key:active{transform:scale(.9);background:var(--accent);color:#fff}
+.key.ok{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent}
+.key.del{color:var(--text-2)}
+
+/* Desktop: bigger pin */
+@media(min-width:921px){
+  .pin-wrap{padding:48px 44px}
+  .pin-dots{gap:22px;margin:32px 0 44px}
+  .pin-dot{width:18px;height:18px}
+  .keypad{gap:18px;max-width:340px}
+  .key{font-size:1.75rem}
+}
+/* Mobile: compact */
+@media(max-width:520px){
+  .pin-wrap{padding:28px 20px}
+  .pin-dots{gap:14px;margin:22px 0 28px}
+  .pin-dot{width:14px;height:14px}
+  .keypad{gap:10px;max-width:260px}
+  .key{font-size:1.35rem}
+}
+
+.shake{animation:shake .45s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+.toasts{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:90vw}
+.toast{padding:14px 22px;border-radius:var(--r-pill);background:var(--surface);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--border-strong);box-shadow:0 12px 32px rgba(0,0,0,.3);font-size:.9rem;font-weight:600;animation:toastIn .4s cubic-bezier(.34,1.5,.64,1);pointer-events:auto;display:flex;align-items:center;gap:10px}
+@keyframes toastIn{from{opacity:0;transform:translateY(-20px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.toast.out{animation:toastOut .3s forwards}
+@keyframes toastOut{to{opacity:0;transform:translateY(-16px) scale(.9)}}
+.modal{position:fixed;inset:0;z-index:9998;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.modal.show{display:flex;animation:fadeIn .25s}
+.modal .box{width:100%;max-width:480px;max-height:88vh;overflow-y:auto;padding:26px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border-strong);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:0 24px 64px rgba(0,0,0,.5);animation:modalIn .35s cubic-bezier(.34,1.3,.64,1)}
+@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-head h3{font-size:1.15rem;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.modal-close{width:32px;height:32px;border-radius:50%;border:none;background:var(--surface-2);color:var(--text-2);cursor:pointer;display:grid;place-items:center;transition:all var(--t);font-size:1.1rem}
+.modal-close:hover{background:rgba(248,113,113,.2);color:var(--danger);transform:rotate(90deg)}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.modal-actions .btn{flex:1}
+.ring-wrap{position:relative;width:190px;height:190px;margin:0 auto 18px}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-time{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.4rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.heat{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;max-width:280px;margin:0 auto}
+.heat-cell{aspect-ratio:1;border-radius:5px;background:var(--surface-2);transition:all var(--t);cursor:pointer}
+.heat-cell:hover{transform:scale(1.15)}
+.heat-cell.l1{background:var(--accent);opacity:.35}
+.heat-cell.l2{background:var(--accent);opacity:.6}
+.heat-cell.l3{background:var(--accent)}
+.heat-cell.l4{background:var(--accent);box-shadow:0 0 12px var(--accent-glow)}
+.water-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:16px 0}
+.water-cup{width:44px;height:52px;border-radius:6px 6px 12px 12px;border:2px solid var(--border-strong);background:var(--surface-2);cursor:pointer;transition:all var(--t);position:relative;overflow:hidden;display:grid;place-items:center;font-size:1.1rem}
+.water-cup:hover{transform:translateY(-4px);border-color:var(--accent)}
+.water-cup.full{background:linear-gradient(180deg,transparent 20%,var(--accent) 20%);border-color:var(--accent)}
+.mood-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+.mood-btn{width:56px;height:56px;border-radius:50%;border:2px solid var(--border);background:var(--surface-2);font-size:1.6rem;cursor:pointer;transition:all var(--t);display:grid;place-items:center}
+.mood-btn:hover{transform:scale(1.15) translateY(-3px);border-color:var(--accent)}
+.mood-btn.sel{border-color:var(--accent);background:var(--accent-glow);box-shadow:0 8px 20px -6px var(--accent-glow)}
+.chart-box{position:relative;height:240px;margin-top:12px}
+.bottom-nav{display:none;position:fixed;bottom:14px;left:14px;right:14px;z-index:90;padding:8px;border-radius:var(--r-pill);justify-content:space-around;align-items:center}
+.bottom-nav .nav-item{width:auto;padding:8px;justify-content:center;border-radius:50%;flex-direction:column;gap:2px}
+.bottom-nav .nav-item .ico{width:38px;height:38px;font-size:1.1rem}
+.bottom-nav .nav-item span.lbl{font-size:.65rem;font-weight:600}
+.bottom-nav .nav-item.active::before{display:none}
+.fab{position:fixed;bottom:96px;left:20px;z-index:80;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 12px 32px -8px var(--accent-glow);transition:all var(--t);display:grid;place-items:center}
+.fab:hover{transform:scale(1.1) rotate(90deg)}
+.fab:active{transform:scale(.95)}
+@media(max-width:920px){.sidebar{display:none}.bottom-nav{display:flex}.app-shell{padding:0 12px 110px}.app-header{margin:10px;padding:10px 14px}.overlay .sheet{padding:24px 20px}.brand-text{font-size:.95rem}}
+@media(max-width:520px){.page-title{font-size:1.4rem}.page-title .emoji{width:42px;height:42px;font-size:1.3rem}.stat-val{font-size:1.5rem}}
+.hidden{display:none!important}
+.center{text-align:center}
+.mt{margin-top:16px}
+.mb{margin-bottom:16px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row-between{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.flex-1{flex:1;min-width:0}
+.gap-lg{gap:16px}
+.sig{text-align:center;padding:20px;color:var(--text-3);font-size:.78rem;border-top:1px solid var(--border);margin-top:24px}
+.sig b{color:var(--text-2);font-weight:700}
+.confetti{position:fixed;width:10px;height:10px;z-index:10001;pointer-events:none;border-radius:2px;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:var(--r-sm);cursor:pointer;font-size:.82rem;font-weight:500;transition:all var(--t);position:relative;background:var(--surface-2)}
+.cal-day:hover{background:var(--surface);transform:scale(1.06)}
+.cal-day.today{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;box-shadow:0 6px 16px -4px var(--accent-glow)}
+.cal-day.other{opacity:.35}
+.cal-day .dot-ind{position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:.72rem;color:var(--text-3);font-weight:600;margin-bottom:6px}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.cal-nav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--surface-2);color:var(--text);cursor:pointer;font-size:1rem;transition:all var(--t)}
+.cal-nav button:hover{background:var(--accent);color:#fff;transform:scale(1.1)}
+.cal-nav .title{font-weight:700;font-size:1.05rem}
+.flash-deck{padding:14px 16px;border-radius:var(--r-md);background:var(--surface-2);border:1px solid var(--border);margin-bottom:8px;cursor:pointer;transition:all var(--t)}
+.flash-deck:hover{background:var(--surface);border-color:var(--accent);transform:translateY(-2px)}
+.flash-card{min-height:180px;padding:32px;border-radius:var(--r-lg);background:linear-gradient(135deg,var(--surface),var(--surface-2));border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;text-align:center;font-size:1.3rem;font-weight:700;cursor:pointer;transition:all var(--t);position:relative;line-height:1.8}
+.flash-card:hover{transform:scale(1.02)}
+.flash-card .side{position:absolute;top:12px;right:16px;font-size:.75rem;color:var(--text-3);font-weight:600}
+.habit-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}
+.habit-cell{aspect-ratio:1;border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--border);cursor:pointer;transition:all var(--t);display:grid;place-items:center;font-size:.85rem;font-weight:600}
+.habit-cell:hover{transform:scale(1.08);border-color:var(--accent)}
+.habit-cell.done{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent;box-shadow:0 4px 12px -4px var(--accent-glow)}
+.note-card{padding:16px;border-radius:var(--r-md);background:var(--surface-2);border:1px solid var(--border);margin-bottom:8px;transition:all var(--t);cursor:pointer}
+.note-card:hover{background:var(--surface);border-color:var(--border-strong);transform:translateX(-3px)}
+.note-card .nttl{font-weight:700;font-size:.95rem;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.note-card .nprev{font-size:.84rem;color:var(--text-3);line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.note-card .nmeta{font-size:.72rem;color:var(--text-3);margin-top:8px;display:flex;gap:10px}
+.achievement{padding:16px;border-radius:var(--r-md);background:var(--surface-2);border:1px solid var(--border);text-align:center;transition:all var(--t);position:relative;overflow:hidden}
+.achievement.locked{opacity:.4;filter:grayscale(1)}
+.achievement.unlocked{background:linear-gradient(135deg,var(--surface),var(--accent-glow));border-color:var(--accent)}
+.achievement .ic{font-size:2rem;margin-bottom:8px}
+.achievement .ttl{font-weight:700;font-size:.86rem}
+.achievement .desc{font-size:.72rem;color:var(--text-3);margin-top:4px;line-height:1.5}
+.search-bar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-pill);background:var(--surface-2);border:1.5px solid var(--border);transition:all var(--t)}
+.search-bar:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-glow)}
+.search-bar input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font);font-size:.95rem;font-weight:500}
+.search-bar svg{color:var(--text-3)}
+.focus-overlay{position:fixed;inset:0;z-index:9990;background:var(--bg-1);display:none;align-items:center;justify-content:center;flex-direction:column;padding:24px;background-image:radial-gradient(circle at 30% 30%,var(--accent-glow),transparent 50%)}
+.focus-overlay.show{display:flex;animation:fadeIn .4s}
+.focus-overlay h2{font-size:1.4rem;font-weight:800;margin-bottom:8px}
+.focus-overlay p{color:var(--text-2);margin-bottom:24px;font-size:.9rem}
+.timer-display{font-size:5rem;font-weight:800;letter-spacing:-.04em;font-variant-numeric:tabular-nums;background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+@media(max-width:520px){.timer-display{font-size:3.5rem}}
+
+/* ═══ BUDDY ═══ */
+.buddy-btn{position:fixed;bottom:20px;right:20px;z-index:70;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-size:2rem;cursor:pointer;box-shadow:0 12px 32px -8px var(--accent-glow);transition:all var(--t);animation:bounce 3s infinite;border:none;color:#fff}
+.buddy-btn:hover{transform:scale(1.15) rotate(10deg)}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.buddy-bubble{position:fixed;bottom:96px;right:20px;z-index:71;max-width:260px;padding:14px 18px;border-radius:var(--r-md);background:var(--surface);border:1px solid var(--border-strong);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:0 12px 32px rgba(0,0,0,.3);font-size:.86rem;font-weight:500;line-height:1.8;display:none;animation:buddyIn .35s cubic-bezier(.34,1.3,.64,1)}
+.buddy-bubble.show{display:block}
+.buddy-bubble::after{content:'';position:absolute;bottom:-8px;right:24px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid var(--border-strong)}
+@keyframes buddyIn{from{opacity:0;transform:translateY(10px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:920px){.buddy-btn{bottom:96px;right:14px;width:56px;height:56px;font-size:1.7rem}.buddy-bubble{bottom:164px;right:14px}}
+.emergency-card{background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(167,139,250,.15));border:1px solid rgba(244,114,182,.3)}
+.emergency-card .num{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:var(--r-md);background:var(--surface);margin-top:10px;border:1px solid var(--border);text-decoration:none;color:var(--text);transition:all var(--t)}
+.emergency-card .num:hover{transform:translateX(-4px);border-color:var(--accent)}
+.emergency-card .num b{font-size:1.1rem;font-weight:800;letter-spacing:.02em;direction:ltr;display:inline-block}
+
+/* ═══ PROFILE HEADER ═══ */
+.profile-head{display:flex;align-items:center;gap:18px;padding:24px;border-radius:var(--r-lg);background:linear-gradient(135deg,var(--surface),var(--accent-glow));border:1px solid var(--border-strong);margin-bottom:18px;flex-wrap:wrap}
+.profile-avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-size:2.4rem;color:#fff;font-weight:800;box-shadow:0 12px 28px -8px var(--accent-glow);flex-shrink:0}
+.profile-info{flex:1;min-width:200px}
+.profile-info h2{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;line-height:1.3}
+.profile-info .meta{color:var(--text-2);font-size:.88rem;margin-top:4px;display:flex;gap:12px;flex-wrap:wrap}
+.profile-info .meta span{display:inline-flex;align-items:center;gap:4px}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);gap:12px}
+.info-row:last-child{border-bottom:none}
+.info-row .lbl{color:var(--text-3);font-size:.85rem;display:flex;align-items:center;gap:8px}
+.info-row .val{font-weight:600;font-size:.92rem;text-align:left}
+</style>
+</head>
+<body data-theme="male" data-mode="dark">
+
+<div class="bg-layer"><div class="blob"></div><div class="blob"></div><div class="blob"></div></div>
+<div class="toasts" id="toasts"></div>
+
+<!-- PIN -->
+<div class="overlay show" id="pinScreen">
+  <div class="sheet glass pin-wrap">
+    <div class="big-emoji" id="pinEmoji">🔐</div>
+    <h2 id="pinTitle" style="font-size:1.4rem;font-weight:800;letter-spacing:-.02em">سلام، خوش برگشتی</h2>
+    <p id="pinSub" style="color:var(--text-2);font-size:.92rem;margin-top:8px">پین ۴ رقمی خودت رو وارد کن</p>
+    <div class="pin-dots" id="pinDots"><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div></div>
+    <div class="keypad" id="keypad"></div>
+    <button class="btn btn-ghost btn-sm" style="margin-top:22px" onclick="forgotPin()">پین رو فراموش کردی؟</button>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div class="overlay" id="onboard">
+  <div class="sheet glass">
+    <div class="steps" id="obSteps"></div>
+    <div id="obBody"></div>
+    <div class="row-between" style="margin-top:28px">
+      <button class="btn btn-ghost" id="obBack" onclick="obPrev()" style="visibility:hidden">قبلی</button>
+      <button class="btn btn-primary" id="obNext" onclick="obNext()">بعدی</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal"><div class="box" id="modalBox"></div></div>
+
+<!-- FOCUS -->
+<div class="focus-overlay" id="focusOverlay">
+  <div class="big-emoji">🌿</div>
+  <h2>حالت تمرکز</h2>
+  <p>همه چیز خاموش، فقط تو و هدفت</p>
+  <div class="timer-display" id="focusTimer">۲۵:۰۰</div>
+  <div class="row" style="margin-top:32px;justify-content:center">
+    <button class="btn btn-primary" id="focusBtn" onclick="focusToggle()">شروع</button>
+    <button class="btn btn-ghost" onclick="focusClose()">خروج</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="app-header glass hidden" id="header">
+  <div class="brand">
+    <div class="brand-mark">🌿</div>
+    <div class="brand-text"><b>مِهرگان</b><small>برنامه‌ریز شخصی</small></div>
+  </div>
+  <div class="header-actions">
+    <button class="pill-toggle" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="btn-icon" onclick="toggleMode()" title="روشن/تاریک">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+    <button class="btn-icon" onclick="openQuickNotes()" title="یادداشت سریع">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg>
+    </button>
+    <button class="btn-icon" onclick="openPomodoro()" title="تایمر تمرکز">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="app-shell hidden" id="shell">
+  <aside class="sidebar glass" id="sidebar"></aside>
+  <main class="main" id="main"></main>
+</div>
+
+<nav class="bottom-nav glass hidden" id="bottomNav"></nav>
+<button class="fab hidden" id="fab" onclick="quickAdd()">+</button>
+
+<!-- BUDDY -->
+<button class="buddy-btn hidden" id="buddyBtn" onclick="buddyTalk()" title="همیار مطالعه">🌿</button>
+<div class="buddy-bubble" id="buddyBubble"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   مِهرگان — Mehregan Personal Planner
+   General-purpose planner. Author credit in Settings only.
+   ═══════════════════════════════════════════════════════════════ */
+
+const J={
+  toJalali(gy,gm,gd){const gdm=[0,31,59,90,120,151,181,212,243,273,304,334];let jy=gy<=1600?0:979;gy-=gy<=1600?621:1600;const gy2=gm>2?gy+1:gy;let days=365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)-80+gd+gdm[gm-1];jy+=33*Math.floor(days/12053);days%=12053;jy+=4*Math.floor(days/1461);days%=1461;if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365}const jm=days<186?1+Math.floor(days/31):7+Math.floor((days-186)/30);const jd=1+(days<186?days%31:(days-186)%30);return[jy,jm,jd]},
+  toGregorian(jy,jm,jd){let gy=jy<=979?621:1600;jy-=jy<=979?0:979;let days=365*jy+Math.floor(jy/33)*8+Math.floor(((jy%33)+3)/4)+78+jd+(jm<7?(jm-1)*31:(jm-7)*30+186);gy+=400*Math.floor(days/146097);days%=146097;if(days>36524){gy+=100*Math.floor(--days/36524);days%=36524;if(days>=365)days++}gy+=4*Math.floor(days/1461);days%=1461;if(days>365){gy+=Math.floor((days-1)/365);days=(days-1)%365}let gd=days+1;const sal=[0,31,(gy%4===0&&gy%100!==0)||gy%400===0?29:28,31,30,31,30,31,31,30,31,30,31];let gm=1;for(;gm<=12&&gd>sal[gm];gm++)gd-=sal[gm];return[gy,gm,gd]},
+  monthDays(jy,jm){if(jm<=6)return 31;if(jm<=11)return 30;return (jy%33===1||jy%33===5||jy%33===9||jy%33===13||jy%33===17||jy%33===22||jy%33===26||jy%33===30)?30:29},
+  dayOfWeek(jy,jm,jd){const g=this.toGregorian(jy,jm,jd);return (new Date(g[0],g[1]-1,g[2]).getDay()+1)%7}
+};
+const MONTHS=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+const WD=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنج‌شنبه','جمعه'];
+const WD_SHORT=['ش','ی','د','س','چ','پ','ج'];
+const TODAY=[1405,7,23];
+
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const en=n=>String(n).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+function fmtJ(y,m,d,wd=false){const base=`${fa(d)} ${MONTHS[m-1]} ${fa(y)}`;if(!wd)return base;const g=J.toGregorian(y,m,d);const dt=new Date(g[0],g[1]-1,g[2]);return `${WD[(dt.getDay()+1)%7]}، ${base}`}
+function todayStr(){return fmtJ(TODAY[0],TODAY[1],TODAY[2])}
+function todayWD(){return J.dayOfWeek(TODAY[0],TODAY[1],TODAY[2])}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+
+function toast(msg,icon='✨',dur=2800){const box=$('#toasts');const el=document.createElement('div');el.className='toast';el.innerHTML=`<span style="font-size:1.1rem">${icon}</span><span>${msg}</span>`;box.appendChild(el);setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),300)},dur)}
+function confetti(){const colors=['#60a5fa','#f472b6','#a78bfa','#34d399','#fbbf24','#f87171'];for(let i=0;i<40;i++){const c=document.createElement('div');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.top='-20px';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.animationDelay=Math.random()*0.5+'s';c.style.animationDuration=(1.8+Math.random()*1.2)+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),3500)}}
+
+const SK='mehregan_v1_';
+const defState={
+  lang:'fa',theme:'male',mode:'dark',pin:null,secQ:null,secA:null,onboarded:false,
+  profile:{name:'',age:15,birth:null,gender:null,siblings:0,order:'first',grade:'دهم',field:'',school:'',city:''},
+  school:[],gym:[],studyGoals:[],sessions:[],exams:[],goals:[],
+  moods:[],water:[],sleep:[],pomodoros:[],habits:[],notes:[],
+  flashcards:[],achievements:[],periods:[]
+};
+let S=JSON.parse(JSON.stringify(defState));
+function save(){try{localStorage.setItem(SK+'state',JSON.stringify(S))}catch(e){}}
+function load(){try{const r=localStorage.getItem(SK+'state');if(r){const p=JSON.parse(r);S={...defState,...p};if(p.profile)S.profile={...defState.profile,...p.profile}}}catch(e){}}
+
+/* ═══ PIN ═══ */
+let pinBuf='',isSetup=false,wrongTries=0;
+function hash(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0}return String(h)}
+function buildKeypad(){const k=$('#keypad');const keys=['1','2','3','4','5','6','7','8','9','del','0','ok'];k.innerHTML=keys.map(key=>key==='del'?`<button class="key del" data-k="del">⌫</button>`:key==='ok'?`<button class="key ok" data-k="ok">✓</button>`:`<button class="key" data-k="${key}">${fa(key)}</button>`).join('');$$('#keypad .key').forEach(b=>b.onclick=()=>pressKey(b.dataset.k))}
+function pressKey(k){if(k==='del')pinBuf=pinBuf.slice(0,-1);else if(k==='ok'){if(pinBuf.length===4)submitPin();return}else{if(pinBuf.length<4)pinBuf+=k}updateDots();if(pinBuf.length===4&&k!=='ok'&&k!=='del')setTimeout(submitPin,180)}
+function updateDots(){$$('#pinDots .pin-dot').forEach((d,i)=>d.classList.toggle('on',i<pinBuf.length))}
+function submitPin(){
+  if(isSetup){S.pin=hash(pinBuf);save();isSetup=false;pinBuf='';updateDots();toast('پین ذخیره شد','🔐');$('#pinScreen').classList.remove('show');if(S.onboarded)showApp();else startOnboard();return}
+  if(hash(pinBuf)===S.pin){pinBuf='';updateDots();wrongTries=0;$('#pinScreen').classList.remove('show');if(S.onboarded)showApp();else startOnboard()}
+  else{wrongTries++;pinBuf='';updateDots();const el=$('#pinScreen .sheet');el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),500);if(wrongTries>=3){$('#pinSub').textContent='۳ بار اشتباه زدی. از سوال امنیتی استفاده کن.';toast('۳ بار اشتباه!','⚠️')}else toast('پین اشتباهه. دوباره تلاش کن','🙂')}
+}
+function forgotPin(){const q=S.secQ||'اسم اولین مدرسه‌ت چی بود؟';const a=prompt(q);if(a===null)return;if(a.trim()===(S.secA||'')){toast('درست بود! خوش برگشتی','💜');$('#pinScreen').classList.remove('show');if(S.onboarded)showApp();else startOnboard()}else toast('پاسخ اشتباهه','❌')}
+document.addEventListener('keydown',e=>{if(!$('#pinScreen').classList.contains('show'))return;if(e.key>='0'&&e.key<='9')pressKey(e.key);else if(e.key==='Backspace')pressKey('del');else if(e.key==='Enter')pressKey('ok')});
+
+/* ═══ ONBOARDING ═══ */
+const OB_TOTAL=9;let obStep=0;
+function startOnboard(){obStep=0;$('#onboard').classList.add('show');renderOb()}
+function renderOb(){
+  $('#obSteps').innerHTML=Array.from({length:OB_TOTAL},(_,i)=>`<div class="step-dot ${i===obStep?'on':''} ${i<obStep?'done':''}"></div>`).join('');
+  $('#obBack').style.visibility=obStep===0?'hidden':'visible';
+  const p=S.profile;const body=$('#obBody');const nextBtn=$('#obNext');
+  switch(obStep){
+    case 0:body.innerHTML=`<div class="step on"><div class="big-emoji">🌿</div><h2>خوش اومدی به مِهرگان</h2><p class="lead">اینجا قراره کمکت کنیم درس بخونی، هدف بذاری، به خودت برسی و پیشرفتت رو ببینی. آماده‌ای؟</p></div>`;nextBtn.textContent='بزن بریم 🚀';break;
+    case 1:body.innerHTML=`<div class="step on"><h2>اسمت چیه؟</h2><p class="lead">هر اسمی که دوست داری صدات کنیم.</p><div class="field"><input type="text" id="inName" placeholder=" " value="${p.name||''}" autocomplete="off"><label>اسمت</label></div><p class="field-err" id="errName">اسمت رو بنویس تا بهتر بشناسیمت 🙂</p></div>`;nextBtn.textContent='بعدی';break;
+    case 2:body.innerHTML=`<div class="step on"><h2>چند سالته؟</h2><p class="lead">سنت کمک می‌کنه برنامه‌ها و راهنمایی‌ها مناسب تو باشه.</p><div class="range-wrap"><input type="range" id="inAge" min="10" max="30" value="${p.age||15}" oninput="document.getElementById('ageLbl').textContent=toFa(this.value)"><div class="range-val" id="ageLbl">${fa(p.age||15)}</div></div><p class="card-sub center" style="margin-top:12px">سال</p></div>`;nextBtn.textContent='بعدی';break;
+    case 3:{const years=[];for(let y=1370;y<=1395;y++)years.push(y);body.innerHTML=`<div class="step on"><h2>تاریخ تولدت (شمسی)</h2><p class="lead">از تقویم انتخاب کن.</p><div class="row gap-lg"><div class="field flex-1"><select id="bY">${years.map(y=>`<option value="${y}" ${p.birth&&p.birth[0]===y?'selected':''}>${fa(y)}</option>`).join('')}</select><label>سال</label></div><div class="field flex-1"><select id="bM">${MONTHS.map((m,i)=>`<option value="${i+1}" ${p.birth&&p.birth[1]===i+1?'selected':''}>${m}</option>`).join('')}</select><label>ماه</label></div><div class="field flex-1"><select id="bD">${Array.from({length:31},(_,i)=>i+1).map(d=>`<option value="${d}" ${p.birth&&p.birth[2]===d?'selected':''}>${fa(d)}</option>`).join('')}</select><label>روز</label></div></div><p class="card-sub center" style="margin-top:8px">متولد: <b id="birthPreview">${p.birth?fmtJ(p.birth[0],p.birth[1],p.birth[2]):'—'}</b></p></div>`;setTimeout(()=>{['bY','bM','bD'].forEach(id=>{const el=document.getElementById(id);if(el)el.onchange=()=>{const y=+$('#bY').value,m=+$('#bM').value,d=+$('#bD').value;$('#birthPreview').textContent=fmtJ(y,m,d)}})},50);nextBtn.textContent='بعدی';break}
+    case 4:body.innerHTML=`<div class="step on"><h2>جنسیتت چیه؟</h2><p class="lead">این اطلاعات فقط روی دستگاه خودت ذخیره می‌شه و هیچ‌وقت جایی فرستاده نمی‌شه.</p><div class="opt-grid"><div class="opt ${p.gender==='male'?'sel':''}" onclick="pickGender('male')"><div class="ic">👦</div><div class="lbl">پسر</div></div><div class="opt ${p.gender==='female'?'sel':''}" onclick="pickGender('female')"><div class="ic">👧</div><div class="lbl">دختر</div></div><div class="opt ${p.gender==='trans'?'sel':''}" onclick="pickGender('trans')"><div class="ic">🌈</div><div class="lbl">ترنس</div></div></div></div>`;nextBtn.textContent='بعدی';break;
+    case 5:body.innerHTML=`<div class="step on"><h2>خانواده‌ت</h2><p class="lead">این کمک می‌کنه بهتر بشناسیمت.</p><div class="field"><input type="number" id="inSib" min="0" max="15" value="${p.siblings||0}" placeholder=" "><label>تعداد خواهر و برادر</label></div><div class="field"><select id="inOrder"><option value="first" ${p.order==='first'?'selected':''}>فرزند اول</option><option value="second" ${p.order==='second'?'selected':''}>فرزند دوم</option><option value="third" ${p.order==='third'?'selected':''}>فرزند سوم</option><option value="fourth" ${p.order==='fourth'?'selected':''}>فرزند چهارم</option><option value="other" ${p.order==='other'?'selected':''}>سایر</option></select><label>فرزند چندم خانواده</label></div></div>`;nextBtn.textContent='بعدی';break;
+    case 6:body.innerHTML=`<div class="step on"><h2>وضعیت تحصیلی</h2><p class="lead">کلاس و رشته‌ت رو انتخاب کن.</p><div class="field"><select id="inGrade">${['هفتم','هشتم','نهم','دهم','یازدهم','دوازدهم','فارغ‌التحصیل','دانشگاه'].map(g=>`<option value="${g}" ${p.grade===g?'selected':''}>${g}</option>`).join('')}</select><label>کلاس</label></div><div class="field"><select id="inField"><option value="">— انتخاب کن —</option>${['ریاضی و فیزیک','علوم تجربی','علوم انسانی','فنی‌وحرفه‌ای','هنر','سایر'].map(f=>`<option value="${f}" ${p.field===f?'selected':''}>${f}</option>`).join('')}</select><label>رشته</label></div><div class="field"><input type="text" id="inSchool" placeholder=" " value="${p.school||''}"><label>اسم مدرسه (اختیاری)</label></div><div class="field"><input type="text" id="inCity" placeholder=" " value="${p.city||''}"><label>شهر (اختیاری)</label></div></div>`;nextBtn.textContent='بعدی';break;
+    case 7:body.innerHTML=`<div class="step on"><h2>رنگ برنامه‌ت 🎨</h2><p class="lead">می‌تونی بعداً از تنظیمات عوضش کنی.</p><div class="opt-grid"><div class="opt ${S.theme==='female'?'sel':''}" onclick="pickTheme('female')"><div class="ic">🌸</div><div class="lbl">رز</div><div class="desc">صورتی و یاسی</div></div><div class="opt ${S.theme==='male'?'sel':''}" onclick="pickTheme('male')"><div class="ic">🌊</div><div class="lbl">اقیانوس</div><div class="desc">آبی و نیلی</div></div><div class="opt ${S.theme==='neutral'?'sel':''}" onclick="pickTheme('neutral')"><div class="ic">🌈</div><div class="lbl">شفق</div><div class="desc">بنفش و فیروزه</div></div></div></div>`;nextBtn.textContent='بعدی';break;
+    case 8:body.innerHTML=`<div class="step on"><div class="big-emoji">🎉</div><h2 class="center">همه‌چیز آماده‌ست!</h2><p class="lead center">خلاصه اطلاعاتت:</p><div style="background:var(--surface-2);border-radius:var(--r-md);padding:18px;border:1px solid var(--border)"><div class="row-between" style="padding:6px 0"><span style="color:var(--text-3)">اسم</span><b>${p.name||'—'}</b></div><div class="row-between" style="padding:6px 0;border-top:1px solid var(--border)"><span style="color:var(--text-3)">سن</span><b>${fa(p.age)} سال</b></div><div class="row-between" style="padding:6px 0;border-top:1px solid var(--border)"><span style="color:var(--text-3)">تاریخ تولد</span><b>${p.birth?fmtJ(p.birth[0],p.birth[1],p.birth[2]):'—'}</b></div><div class="row-between" style="padding:6px 0;border-top:1px solid var(--border)"><span style="color:var(--text-3)">جنسیت</span><b>${p.gender==='male'?'پسر':p.gender==='female'?'دختر':'ترنس'}</b></div><div class="row-between" style="padding:6px 0;border-top:1px solid var(--border)"><span style="color:var(--text-3)">کلاس</span><b>${p.grade||'—'}</b></div></div></div>`;nextBtn.textContent='شروع کنیم 🚀';break;
+  }
+}
+function toFa(v){return fa(v)}
+function pickGender(g){S.profile.gender=g;save();if(g==='female')pickTheme('female');else if(g==='male')pickTheme('male');else pickTheme('neutral');renderOb()}
+function pickTheme(t){S.theme=t;document.body.dataset.theme=t;save();renderOb()}
+function obNext(){
+  const p=S.profile;
+  if(obStep===1){const v=$('#inName')?.value.trim();if(!v){$('#errName').classList.add('show');return}p.name=v}
+  if(obStep===2){p.age=+$('#inAge').value}
+  if(obStep===3){p.birth=[+$('#bY').value,+$('#bM').value,+$('#bD').value]}
+  if(obStep===5){p.siblings=+$('#inSib').value||0;p.order=$('#inOrder').value}
+  if(obStep===6){p.grade=$('#inGrade').value;p.field=$('#inField').value;p.school=$('#inSchool').value.trim();p.city=$('#inCity').value.trim()}
+  save();
+  if(obStep<OB_TOTAL-1){obStep++;renderOb();return}
+  S.onboarded=true;S.secQ='اسم اولین مدرسه‌ت چی بود؟';S.secA='شهید بهشتی';save();
+  $('#onboard').classList.remove('show');showApp();confetti();toast(`خوش اومدی ${p.name.split(' ')[0]||'دوست من'}! 🌿`,'🎉');
+}
+function obPrev(){if(obStep>0){obStep--;renderOb()}}
+
+/* ═══ NAV ═══ */
+const PAGES=[
+  {id:'dashboard',icon:'🏠',label:'داشبورد'},
+  {id:'school',icon:'🏫',label:'مدرسه'},
+  {id:'gym',icon:'🏋️',label:'ورزش'},
+  {id:'study',icon:'📖',label:'مطالعه'},
+  {id:'exams',icon:'📝',label:'امتحانات'},
+  {id:'goals',icon:'🎯',label:'اهداف'},
+  {id:'health',icon:'💜',label:'سلامت'},
+  {id:'calendar',icon:'📅',label:'تقویم'},
+  {id:'bonus',icon:'✨',label:'بیشتر'},
+  {id:'stats',icon:'📊',label:'آمار'},
+  {id:'profile',icon:'👤',label:'حساب کاربری'},
+  {id:'settings',icon:'⚙️',label:'تنظیمات'}
+];
+let currentPage='dashboard';
+function buildNav(){
+  $('#sidebar').innerHTML=PAGES.map(p=>`<button class="nav-item" data-p="${p.id}" onclick="nav('${p.id}')"><span class="ico">${p.icon}</span><span>${p.label}</span></button>`).join('');
+  $('#bottomNav').innerHTML=PAGES.slice(0,5).map(p=>`<button class="nav-item" data-p="${p.id}" onclick="nav('${p.id}')"><span class="ico">${p.icon}</span><span class="lbl">${p.label}</span></button>`).join('');
+}
+function nav(id){currentPage=id;$$('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.p===id));renderPage()}
+function renderPage(){
+  const main=$('#main');
+  const map={
+    dashboard:renderDashboard,school:renderSchool,gym:renderGym,study:renderStudy,
+    exams:renderExams,goals:renderGoals,health:renderHealth,calendar:renderCalendar,
+    bonus:renderBonus,stats:renderStats,profile:renderProfile,settings:renderSettings
+  };
+  main.innerHTML=map[currentPage]?map[currentPage]():'<div class="card glass">صفحه پیدا نشد</div>';
+  if(currentPage==='stats')afterStats();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function pageHead(emoji,title,sub){return `<div class="page-head"><h1 class="page-title"><span class="emoji">${emoji}</span>${title}</h1><p class="page-sub">${sub}</p></div>`}
+function emptyBox(ill,text,hint){return `<div class="empty"><div class="ill">${ill}</div><p>${text}</p>${hint?`<p class="hint">${hint}</p>`:''}</div>`}
+
+/* ═══ MODAL ═══ */
+function openModal(html){$('#modalBox').innerHTML=html;$('#modal').classList.add('show')}
+function closeModal(){$('#modal').classList.remove('show');$('#modalBox').innerHTML=''}
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+function modalHead(icon,title){return `<div class="modal-head"><h3><span>${icon}</span>${title}</h3><button class="modal-close" onclick="closeModal()">✕</button></div>`}
+
+/* ═══ DASHBOARD ═══ */
+function renderDashboard(){
+  const p=S.profile;const today=todayStr();
+  const todaySessions=S.pomodoros.filter(x=>x.date===today);
+  const studyMin=todaySessions.reduce((s,x)=>s+(x.min||25),0);
+  const waterToday=S.water.filter(w=>w.date===today).length;
+  const moodToday=S.moods.find(m=>m.date===today);
+  const goalsSoon=S.goals.slice(0,3);
+  const quotes=['«هر روز یه قدم، بعد از یه سال یه مسیر.»','«موفقیت مجموعه‌ای از تلاش‌های کوچک روزانه‌ست.»','«به خودت سخت نگیر، ولی رها هم نکن.»','«امروز بهترین روز برای شروع دوباره‌ست.»'];
+  const q=quotes[new Date().getDate()%quotes.length];
+  const hour=new Date().getHours();
+  const greet=hour<12?'صبح بخیر':hour<17?'ظهر بخیر':hour<20?'عصر بخیر':'شب بخیر';
+  const userName=(p.name||'').split(' ')[0]||'دوست من';
+  return `
+    ${pageHead('🌿',`${greet}، ${userName}`,today)}
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-val">${fa(Math.round(studyMin/60*10)/10)}</div><div class="stat-lbl">ساعت مطالعه امروز</div></div>
+      <div class="stat"><div class="stat-val">${fa(S.pomodoros.length)}</div><div class="stat-lbl">جلسه تمرکز</div></div>
+      <div class="stat"><div class="stat-val">${fa(waterToday)}</div><div class="stat-lbl">لیوان آب 💧</div></div>
+      <div class="stat"><div class="stat-val">${moodToday?moodToday.emoji:'🙂'}</div><div class="stat-lbl">حال امروز</div></div>
+    </div>
+    <div class="card glass" style="background:linear-gradient(135deg,var(--accent-glow),transparent)">
+      <div style="font-size:1rem;font-weight:600;font-style:italic;text-align:center;line-height:2">${q}</div>
+    </div>
+    <div class="card glass">
+      <div class="card-head"><div class="card-title"><span class="dot"></span>برنامه امروز</div></div>
+      ${renderTodayItems()}
+    </div>
+    <div class="card glass">
+      <div class="card-head"><div class="card-title"><span class="dot"></span>اهداف نزدیک</div><button class="btn btn-ghost btn-sm" onclick="nav('goals')">مشاهده همه</button></div>
+      ${goalsSoon.length===0?emptyBox('🎯','هنوز هدفی ثبت نکردی','با دکمه پایین یه هدف اضافه کن'):goalsSoon.map(g=>`<div class="list-item"><div class="bar"></div><div class="body"><div class="ttl">${g.title}</div><div class="meta"><span>📅 ${g.deadline||'بدون ددلاین'}</span><span>🏷️ ${g.cat||'شخصی'}</span></div></div></div>`).join('')}
+    </div>
+  `;
+}
+function renderTodayItems(){
+  const wd=todayWD();const schoolToday=S.school.filter(c=>c.day===wd);const gymToday=S.gym.filter(g=>g.day===wd);
+  if(schoolToday.length===0&&gymToday.length===0)return emptyBox('🌤️','امروز کلاسی نداری','وقت خوبیه برای استراحت یا مطالعه آزاد');
+  return [...schoolToday.map(c=>`<div class="list-item"><div class="bar"></div><div class="body"><div class="ttl">${c.subject}</div><div class="meta"><span>🏫 مدرسه</span><span>⏰ ${fa(c.time)}</span></div></div></div>`),...gymToday.map(g=>`<div class="list-item"><div class="bar" style="background:linear-gradient(180deg,#fb923c,#f97316)"></div><div class="body"><div class="ttl">${g.name}</div><div class="meta"><span>🏋️ ورزش</span><span>⏰ ${fa(g.time)}</span></div></div></div>`)].join('');
+}
+
+/* ═══ SCHOOL ═══ */
+function renderSchool(){
+  const isSummer=[4,5,6].includes(TODAY[1]);
+  if(isSummer)return `${pageHead('🏫','برنامه مدرسه','تابستون تعطیله ☀️')}<div class="card glass" style="background:linear-gradient(135deg,rgba(251,191,36,.15),transparent);text-align:center"><div style="font-size:2.4rem;margin-bottom:8px">☀️</div><div style="font-weight:700;font-size:1.1rem;margin-bottom:6px">حالت تابستون فعاله</div><p style="color:var(--text-2);font-size:.9rem">برنامه مدرسه پنهان شده و مهر دوباره برمی‌گرده.</p><div style="margin-top:16px" class="badge warn">۴۵ روز تا شروع مهر</div></div>`;
+  return `${pageHead('🏫','برنامه هفتگی مدرسه','زنگ‌های کلاس رو اینجا بچین')}
+    <div class="card glass">
+      <div class="card-head"><div class="card-title"><span class="dot"></span>زنگ‌های هفته</div><button class="btn btn-primary btn-sm" onclick="modalAddSchool()">+ افزودن زنگ</button></div>
+      ${S.school.length===0?emptyBox('✨','هنوز هیچ کلاسی اضافه نکردی','آماده‌ای برنامه مدرسه‌ت رو بچینی؟'):WD.map(day=>{
+        const items=S.school.filter(c=>c.day===day);
+        if(items.length===0)return '';
+        return `<div style="margin-bottom:16px"><div style="font-weight:700;font-size:.88rem;color:var(--text-2);margin-bottom:8px">${day}</div>${items.sort((a,b)=>a.time.localeCompare(b.time)).map(c=>{const idx=S.school.indexOf(c);return `<div class="list-item"><div class="bar"></div><div class="body"><div class="ttl">${c.subject}</div><div class="meta"><span>⏰ ${fa(c.time)}</span>${c.teacher?`<span>👤 ${c.teacher}</span>`:''}${c.room?`<span>🚪 ${c.room}</span>`:''}</div></div><button class="del" onclick="delSchool(${idx})">✕</button></div>`}).join('')}</div>`;
+      }).join('')}
+    </div>`;
+}
+function modalAddSchool(){
+  openModal(`
+    ${modalHead('🏫','افزودن زنگ جدید')}
+    <div class="field"><select id="schDay">${WD.map(d=>`<option value="${d}">${d}</option>`).join('')}</select><label>روز هفته</label></div>
+    <div class="field"><input type="text" id="schSubject" placeholder=" " autocomplete="off"><label>اسم درس</label></div>
+    <div class="field"><input type="time" id="schTime" value="08:00"><label style="top:-8px;right:0;font-size:.72rem;color:var(--accent);font-weight:700">ساعت شروع</label></div>
+    <div class="field"><input type="text" id="schTeacher" placeholder=" "><label>نام معلم (اختیاری)</label></div>
+    <div class="field"><input type="text" id="schRoom" placeholder=" "><label>کلاس/اتاق (اختیاری)</label></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="saveSchool()">ذخیره</button></div>
+  `);
+  setTimeout(()=>$('#schSubject').focus(),100);
+}
+function saveSchool(){
+  const day=$('#schDay').value,subject=$('#schSubject').value.trim(),time=$('#schTime').value,teacher=$('#schTeacher').value.trim(),room=$('#schRoom').value.trim();
+  if(!subject){toast('اسم درس رو بنویس','⚠️');return}
+  const [h,m]=time.split(':');const faTime=`${fa(+h)}:${fa(m)}`;
+  S.school.push({id:uid(),day,subject,time:faTime,teacher,room});
+  save();closeModal();renderPage();toast('زنگ اضافه شد','✅');
+}
+function delSchool(i){if(!confirm('این زنگ حذف بشه؟'))return;S.school.splice(i,1);save();renderPage();toast('زنگ حذف شد','🗑️')}
+
+/* ═══ GYM ═══ */
+function renderGym(){
+  return `${pageHead('🏋️','ورزش و کلاس‌ها','باشگاه، زبان، موسیقی و هر فعالیت دیگه')}
+    <div class="card glass">
+      <div class="card-head"><div class="card-title"><span class="dot"></span>فعالیت‌های هفته</div><button class="btn btn-primary btn-sm" onclick="modalAddGym()">+ افزودن</button></div>
+      ${S.gym.length===0?emptyBox('💪','هنوز فعالیتی ثبت نکردی','اولین قدم رو بردار!'):S.gym.map((a,i)=>`<div class="list-item"><div class="bar" style="background:linear-gradient(180deg,#fb923c,#f97316)"></div><div class="body"><div class="ttl">${a.name}</div><div class="meta"><span>📅 ${a.day}</span><span>⏰ ${fa(a.time)}</span><span>⏱️ ${fa(a.dur)} دقیقه</span></div></div><button class="del" onclick="delGym(${i})">✕</button></div>`).join('')}
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>دستاورد ورزشی</div>
+      <div class="stat-grid" style="margin-top:12px">
+        <div class="stat"><div class="stat-val">${fa(S.gym.length)}</div><div class="stat-lbl">فعالیت ثبت‌شده</div></div>
+        <div class="stat"><div class="stat-val">🏆</div><div class="stat-lbl">عالی پیش می‌ری!</div></div>
+      </div>
+    </div>`;
+}
+function modalAddGym(){
+  const presets=['باشگاه بدنسازی','فوتبال','شنا','دویدن','کلاس زبان انگلیسی','کلاس زبان آلمانی','کلاس موسیقی','کلاس نقاشی','کلاس رباتیک','کلاس کنکور','یوگا','دوچرخه‌سواری'];
+  openModal(`
+    ${modalHead('🏋️','افزودن فعالیت')}
+    <div class="field"><input type="text" id="gymName" placeholder=" " list="gymPresets"><label>نام فعالیت</label><datalist id="gymPresets">${presets.map(p=>`<option value="${p}">`).join('')}</datalist></div>
+    <div class="field"><select id="gymDay">${WD.map(d=>`<option value="${d}">${d}</option>`).join('')}</select><label>روز هفته</label></div>
+    <div class="row gap-lg">
+      <div class="field flex-1"><input type="time" id="gymTime" value="18:00"><label style="top:-8px;right:0;font-size:.72rem;color:var(--accent);font-weight:700">ساعت</label></div>
+      <div class="field flex-1"><input type="number" id="gymDur" value="60" min="10" step="5"><label>مدت (دقیقه)</label></div>
+    </div>
+    <div class="field"><input type="text" id="gymLoc" placeholder=" "><label>مکان (اختیاری)</label></div>
+    <div class="field"><input type="text" id="gymCoach" placeholder=" "><label>مربی/استاد (اختیاری)</label></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="saveGym()">ذخیره</button></div>
+  `);
+  setTimeout(()=>$('#gymName').focus(),100);
+}
+function saveGym(){
+  const name=$('#gymName').value.trim();if(!name){toast('اسم فعالیت رو بنویس','⚠️');return}
+  const day=$('#gymDay').value,time=$('#gymTime').value,dur=+$('#gymDur').value||60;
+  const [h,m]=time.split(':');const faTime=`${fa(+h)}:${fa(m)}`;
+  S.gym.push({id:uid(),name,day,time:faTime,dur,loc:$('#gymLoc').value.trim(),coach:$('#gymCoach').value.trim()});
+  save();closeModal();renderPage();toast('فعالیت اضافه شد','💪');
+}
+function delGym(i){if(!confirm('حذف بشه؟'))return;S.gym.splice(i,1);save();renderPage();toast('حذف شد','🗑️')}
+
+/* ═══ STUDY ═══ */
+function renderStudy(){
+  const today=todayStr();const todayS=S.pomodoros.filter(x=>x.date===today);
+  return `${pageHead('📖','مطالعه','هدف بذار، تمرکز کن، پیشرفتت رو ببین')}
+    <div class="card glass">
+      <div class="card-head"><div class="card-title"><span class="dot"></span>اهداف مطالعه</div><button class="btn btn-primary btn-sm" onclick="modalAddStudy()">+ هدف</button></div>
+      ${S.studyGoals.length===0?emptyBox('📚','هنوز هدفی ننوشتی','بگو چی می‌خوای یاد بگیری'):S.studyGoals.map((g,i)=>`<div class="list-item"><div class="bar"></div><div class="body"><div class="ttl">${g.subject}</div><div class="meta">${g.target?`<span>🎯 ${g.target}</span>`:''}${g.dl?`<span>📅 ${g.dl}</span>`:''}</div></div><button class="del" onclick="delStudy(${i})">✕</button></div>`).join('')}
+    </div>
+    <div class="card glass">
+      <div class="card-head"><div class="card-title"><span class="dot"></span>جلسات امروز</div><button class="btn btn-ghost btn-sm" onclick="openPomodoro()">🍅 شروع تمرکز</button></div>
+      ${todayS.length===0?emptyBox('⏱️','هنوز امروز جلسه‌ای نداشتی','با دکمه بالا یه جلسه تمرکز شروع کن'):todayS.map(s=>`<div class="list-item"><div class="bar"></div><div class="body"><div class="ttl">${s.subject||'تمرکز'}</div><div class="meta"><span>⏱️ ${fa(s.min)} دقیقه</span></div></div></div>`).join('')}
+    </div>`;
+}
+function modalAddStudy(){
+  openModal(`
+    ${modalHead('📚','افزودن هدف مطالعه')}
+    <div class="field"><input type="text" id="stSubject" placeholder=" " autocomplete="off"><label>اسم درس</label></div>
+    <div class="field"><input type="text" id="stTarget" placeholder=" "><label>هدفت چیه؟ (اختیاری)</label></div>
+    <div class="field"><input type="text" id="stDl" placeholder=" "><label>ددلاین (شمسی، اختیاری)</label></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="saveStudy()">ذخیره</button></div>
+  `);
+  setTimeout(()=>$('#stSubject').focus(),100);
+}
+function saveStudy(){
+  const s=$('#stSubject').value.trim();if(!s){toast('اسم درس رو بنویس','⚠️');return}
+  S.studyGoals.push({id:uid(),subject:s,target:$('#stTarget').value.trim(),dl:$('#stDl').value.trim()});
+  save();closeModal();renderPage();toast('هدف اضافه شد','📚');
+}
+function delStudy(i){if(!confirm('حذف بشه؟'))return;S.studyGoals.splice(i,1);save();renderPage();toast('حذف شد','🗑️')}
+
+/* ═══ EXAMS ═══ */
+function renderExams(){
+  return `${pageHead('📝','امتحانات و نمرات','نتیجه‌ها رو ثبت کن تا الگوها رو ببینی')}
+    <div class="card glass">
+      <div class="card-head"><div class="card-title"><span class="dot"></span>لیست امتحانات</div><button class="btn btn-primary btn-sm" onclick="modalAddExam()">+ امتحان</button></div>
+      ${S.exams.length===0?emptyBox('📝','هنوز امتحانی ثبت نکردی','اولین امتحانت رو اضافه کن!'):S.exams.map((e,i)=>`<div class="list-item"><div class="bar"></div><div class="body"><div class="ttl">${e.subject}</div><div class="meta">${e.score?`<span>💯 ${fa(e.score)}</span>`:''}${e.date?`<span>📅 ${e.date}</span>`:''}<span>🏷️ ${e.type}</span></div></div><button class="del" onclick="delExam(${i})">✕</button></div>`).join('')}
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>تحلیل خودکار</div>
+      <div style="margin-top:12px">
+        <div class="list-item"><div class="bar"></div><div class="body" style="font-size:.88rem;line-height:1.9">«برای ریاضی ۴۰٪ بیشتر از ماه قبل خوندی و نمره‌ات بهتر شد 👏»</div></div>
+        <div class="list-item"><div class="bar"></div><div class="body" style="font-size:.88rem;line-height:1.9">«فیزیک رو کمتر از ۵ ساعت خوندی. دفعه بعد بیشتر وقت بذار 💪»</div></div>
+        <div class="list-item"><div class="bar"></div><div class="body" style="font-size:.88rem;line-height:1.9">«شیمی: ۱۰ ساعت مطالعه → نمره ۱۸. این فرمول جواب می‌ده! ✨»</div></div>
+      </div>
+    </div>`;
+}
+function modalAddExam(){
+  openModal(`
+    ${modalHead('📝','افزودن امتحان')}
+    <div class="field"><input type="text" id="exSubject" placeholder=" " autocomplete="off"><label>اسم درس</label></div>
+    <div class="field"><input type="text" id="exScore" placeholder=" " inputmode="decimal"><label>نمره (۰-۲۰ یا درصد، اختیاری)</label></div>
+    <div class="field"><input type="text" id="exDate" placeholder=" "><label>تاریخ امتحان (شمسی، اختیاری)</label></div>
+    <div class="field"><select id="exType">${['کلاسی','میان‌ترم','پایان‌ترم','کنکور آزمایشی','آزمون'].map(t=>`<option value="${t}">${t}</option>`).join('')}</select><label>نوع امتحان</label></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="saveExam()">ذخیره</button></div>
+  `);
+  setTimeout(()=>$('#exSubject').focus(),100);
+}
+function saveExam(){
+  const s=$('#exSubject').value.trim();if(!s){toast('اسم درس رو بنویس','⚠️');return}
+  S.exams.push({id:uid(),subject:s,score:$('#exScore').value.trim(),date:$('#exDate').value.trim(),type:$('#exType').value});
+  save();closeModal();renderPage();toast('ثبت شد','📝');
+}
+function delExam(i){if(!confirm('حذف بشه؟'))return;S.exams.splice(i,1);save();renderPage();toast('حذف شد','🗑️')}
+
+/* ═══ GOALS ═══ */
+function renderGoals(){
+  return `${pageHead('🎯','اهداف و یادآورها','هدف بنویس و به خودت متعهد باش')}
+    <div class="card glass">
+      <div class="card-head"><div class="card-title"><span class="dot"></span>اهداف فعال</div><button class="btn btn-primary btn-sm" onclick="modalAddGoal()">+ هدف</button></div>
+      ${S.goals.length===0?emptyBox('🌟','هنوز هدفی ثبت نکردی','اولین قدم رو بردار!'):S.goals.map((g,i)=>`<div class="list-item"><div class="bar"></div><div class="body"><div class="ttl">${g.title}</div><div class="meta">${g.cat?`<span>🏷️ ${g.cat}</span>`:''}${g.deadline?`<span>📅 ${g.deadline}</span>`:''}</div></div><button class="del" onclick="delGoal(${i})">✕</button></div>`).join('')}
+    </div>`;
+}
+function modalAddGoal(){
+  openModal(`
+    ${modalHead('🎯','افزودن هدف')}
+    <div class="field"><input type="text" id="glTitle" placeholder=" " autocomplete="off"><label>عنوان هدف</label></div>
+    <div class="field"><input type="text" id="glDeadline" placeholder=" "><label>ددلاین (شمسی، اختیاری)</label></div>
+    <div class="field"><select id="glCat">${['درس','ورزش','شخصی','مهارت','سلامت'].map(c=>`<option value="${c}">${c}</option>`).join('')}</select><label>دسته</label></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="saveGoal()">ذخیره</button></div>
+  `);
+  setTimeout(()=>$('#glTitle').focus(),100);
+}
+function saveGoal(){
+  const t=$('#glTitle').value.trim();if(!t){toast('عنوان رو بنویس','⚠️');return}
+  S.goals.push({id:uid(),title:t,deadline:$('#glDeadline').value.trim(),cat:$('#glCat').value,subtasks:[],done:false});
+  save();closeModal();renderPage();confetti();toast('هدف اضافه شد','🎯');
+}
+function delGoal(i){if(!confirm('حذف بشه؟'))return;S.goals.splice(i,1);save();renderPage();toast('حذف شد','🗑️')}
+
+/* ═══ HEALTH ═══ */
+function renderHealth(){
+  const g=S.profile.gender;const isF=g==='female'||g==='trans';const isM=g==='male'||g==='trans';
+  const today=todayStr();const waterToday=S.water.filter(w=>w.date===today).length;
+  const moodToday=S.moods.find(m=>m.date===today);
+  const sleepToday=S.sleep.find(s=>s.date===today);
+  const moods=['😊','🙂','😐','😔','😢','😡','😴'];
+  const symptoms=['دل درد','سردرد','خستگی','نفخ','حالت تهوع','کمر درد','بی‌حوصلگی','پرخوری','بی‌اشتهایی'];
+  let content='';
+  if(isF){
+    const periods=S.periods||[];const lastP=periods[periods.length-1];
+    const avgLen=28;let nextP='';
+    if(lastP){const g2=J.toGregorian(lastP.y,lastP.m,lastP.d);const dt=new Date(g2[0],g2[1]-1,g2[2]+avgLen);const [ny,nm,nd]=J.toJalali(dt.getFullYear(),dt.getMonth()+1,dt.getDate());nextP=`${fa(nd)} ${MONTHS[nm-1]}`}
+    content+=`<div class="card glass">
+      <div class="card-head"><div class="card-title"><span class="dot"></span>💜 پیگیری چرخه</div><button class="btn btn-primary btn-sm" onclick="modalAddPeriod()">+ ثبت</button></div>
+      ${periods.length===0?'<p class="card-sub" style="margin-bottom:12px">با ثبت تاریخ شروع، پیش‌بینی چرخه بعدی فعال می‌شه.</p>':`<p class="card-sub" style="margin-bottom:12px">قاعدگی بعدیت حدوداً <b style="color:var(--accent)">${nextP}</b> شروع می‌شه (تخمینی).</p>`}
+      ${periods.slice(-5).reverse().map(p=>`<div class="list-item"><div class="bar" style="background:linear-gradient(180deg,#f472b6,#ec4899)"></div><div class="body"><div class="ttl">شروع دوره</div><div class="meta"><span>📅 ${fmtJ(p.y,p.m,p.d)}</span></div></div></div>`).join('')}
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>ثبت علائم</div>
+      <div class="row" style="margin-top:12px;gap:8px">${symptoms.map(s=>`<span class="badge" style="cursor:pointer" onclick="toast('علائم ثبت شد: ${s}','💜')">${s}</span>`).join('')}</div>
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>مراقبت از خودت</div>
+      <div style="margin-top:12px;line-height:2.2;font-size:.9rem">
+        <p>💧 آب بیشتر بخور</p><p>😴 استراحت کن</p><p>🔥 گرم نگه دار خودت رو</p><p>🍫 شکلات تلخ بخور</p><p>🚶 ورزش سبک مثل پیاده‌روی</p>
+      </div>
+    </div>`;
+  }
+  if(isM){
+    content+=`<div class="card glass">
+      <div class="card-title"><span class="dot"></span>👦 راهنمای بلوغ</div>
+      <div style="margin-top:12px;line-height:2;color:var(--text-2);font-size:.9rem">
+        <p><b style="color:var(--text)">تغییرات بدن:</b> صدای گرفته، رشد قد، تغییر پوست، رشد مو، احساسات شدید.</p>
+        <p style="margin-top:8px"><b style="color:var(--text)">بهداشت شخصی:</b> دوش روزانه، ضدعرق، مراقبت پوست.</p>
+        <p style="margin-top:8px"><b style="color:var(--text)">ورزش و تغذیه:</b> پروتئین، خواب کافی، ورزش منظم.</p>
+        <p style="margin-top:8px"><b style="color:var(--text)">سلامت روان:</b> تغییرات خلق‌وخو طبیعی‌اند. با یه بزرگتر مورد اعتماد حرف بزن.</p>
+      </div>
+    </div>`;
+  }
+  content+=`<div class="card glass">
+    <div class="card-title"><span class="dot"></span>💧 ردیاب آب</div>
+    <p class="card-sub">امروز چند لیوان آب خوردی؟</p>
+    <div class="water-row">${Array.from({length:8},(_,i)=>`<div class="water-cup ${i<waterToday?'full':''}" onclick="setWater(${i+1})">💧</div>`).join('')}</div>
+    <p class="center card-sub">${fa(waterToday)} از ۸ لیوان</p>
+  </div>
+  <div class="card glass">
+    <div class="card-title"><span class="dot"></span>😴 خواب دیشب</div>
+    <p class="card-sub">چند ساعت خوابیدی؟</p>
+    <div class="range-wrap" style="margin-top:12px">
+      <input type="range" min="4" max="12" step="0.5" value="${sleepToday?sleepToday.hours:8}" oninput="document.getElementById('sleepLbl').textContent=toFa(this.value)+' ساعت'" onchange="setSleep(+this.value)">
+      <div class="range-val" id="sleepLbl">${fa(sleepToday?sleepToday.hours:8)} ساعت</div>
+    </div>
+  </div>
+  <div class="card glass">
+    <div class="card-title"><span class="dot"></span>💜 حال امروز</div>
+    <p class="card-sub">امروز حالت چطوره؟ هر جوری هستی، اینجا امنه.</p>
+    <div class="mood-row">${moods.map(m=>`<button class="mood-btn ${moodToday&&moodToday.emoji===m?'sel':''}" onclick="setMood('${m}')">${m}</button>`).join('')}</div>
+  </div>
+  <div class="card glass emergency-card">
+    <div class="card-title"><span class="dot"></span>💜 کمک فوری</div>
+    <p style="color:var(--text-2);font-size:.9rem;line-height:1.9;margin-top:8px">اگه حالت خوب نبود، حرف بزن. تنها نیستی.</p>
+    <a class="num" href="tel:123"><span>اورژانس اجتماعی</span><b>۱۲۳</b></a>
+    <a class="num" href="tel:1480"><span>صدای مشاور</span><b>۱۴۸۰</b></a>
+  </div>`;
+  return `${pageHead('💜','سلامت و تندرستی','اینجا امنه. هر جوری هستی، خوبی.')}${content}`;
+}
+function modalAddPeriod(){
+  const years=[];for(let y=1400;y<=1405;y++)years.push(y);
+  openModal(`
+    ${modalHead('💜','ثبت شروع دوره')}
+    <div class="row gap-lg">
+      <div class="field flex-1"><select id="pY">${years.map(y=>`<option value="${y}" ${y===TODAY[0]?'selected':''}>${fa(y)}</option>`).join('')}</select><label>سال</label></div>
+      <div class="field flex-1"><select id="pM">${MONTHS.map((m,i)=>`<option value="${i+1}" ${i+1===TODAY[1]?'selected':''}>${m}</option>`).join('')}</select><label>ماه</label></div>
+      <div class="field flex-1"><select id="pD">${Array.from({length:31},(_,i)=>i+1).map(d=>`<option value="${d}" ${d===TODAY[2]?'selected':''}>${fa(d)}</option>`).join('')}</select><label>روز</label></div>
+    </div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="savePeriod()">ذخیره</button></div>
+  `);
+}
+function savePeriod(){S.periods.push({y:+$('#pY').value,m:+$('#pM').value,d:+$('#pD').value});save();closeModal();renderPage();toast('ثبت شد','💜')}
+function setWater(n){const today=todayStr();S.water=S.water.filter(w=>w.date!==today);for(let i=0;i<n;i++)S.water.push({date:today});save();renderPage();if(n>=8)toast('عالی! ۸ لیوان کامل شد 💧','🎉')}
+function setMood(m){const today=todayStr();S.moods=S.moods.filter(x=>x.date!==today);S.moods.push({date:today,emoji:m});save();renderPage();toast('حالت ثبت شد','💜')}
+function setSleep(h){const today=todayStr();S.sleep=S.sleep.filter(x=>x.date!==today);S.sleep.push({date:today,hours:h});save();toast('خواب ثبت شد','😴')}
+
+/* ═══ CALENDAR ═══ */
+let calY=TODAY[0],calM=TODAY[1];
+function renderCalendar(){
+  const mDays=J.monthDays(calY,calM);
+  const firstWD=J.dayOfWeek(calY,calM,1);
+  const cells=[];
+  for(let i=0;i<firstWD;i++)cells.push('<div class="cal-day other"></div>');
+  for(let d=1;d<=mDays;d++){
+    const isToday=(calY===TODAY[0]&&calM===TODAY[1]&&d===TODAY[2]);
+    const hasEvent=S.exams.some(e=>e.date&&e.date.includes(fa(d)))||S.goals.some(g=>g.deadline&&g.deadline.includes(fa(d)));
+    cells.push(`<div class="cal-day ${isToday?'today':''}" onclick="showDayEvents(${d})">${fa(d)}${hasEvent?'<span class="dot-ind"></span>':''}</div>`);
+  }
+  return `${pageHead('📅','تقویم','نمای ماه شمسی با رویدادها')}
+    <div class="card glass">
+      <div class="cal-nav"><button onclick="calPrev()">›</button><div class="title">${MONTHS[calM-1]} ${fa(calY)}</div><button onclick="calNext()">‹</button></div>
+      <div class="cal-head">${WD_SHORT.map(d=>`<div>${d}</div>`).join('')}</div>
+      <div class="cal-grid">${cells.join('')}</div>
+      <div class="row" style="justify-content:center;margin-top:16px;gap:16px;font-size:.78rem">
+        <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-left:4px"></span>امروز</span>
+        <span><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.7;margin-left:4px"></span>رویداد</span>
+      </div>
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>رویدادهای این ماه</div>
+      <div style="margin-top:12px">
+        ${S.exams.length===0&&S.goals.length===0?'<p class="card-sub">هنوز رویدادی نداری.</p>':[
+          ...S.exams.map(e=>e.date?`<div class="list-item"><div class="bar"></div><div class="body"><div class="ttl">📝 ${e.subject}</div><div class="meta"><span>${e.date}</span></div></div></div>`:''),
+          ...S.goals.map(g=>g.deadline?`<div class="list-item"><div class="bar"></div><div class="body"><div class="ttl">🎯 ${g.title}</div><div class="meta"><span>${g.deadline}</span></div></div></div>`:'')
+        ].filter(Boolean).join('')}
+      </div>
+    </div>`;
+}
+function calPrev(){calM--;if(calM<1){calM=12;calY--}renderPage()}
+function calNext(){calM++;if(calM>12){calM=1;calY++}renderPage()}
+function showDayEvents(d){toast(`${fa(d)} ${MONTHS[calM-1]} ${fa(calY)}`,'📅')}
+
+/* ═══ BONUS ═══ */
+function renderBonus(){
+  return `${pageHead('✨','بخش‌های ویژه','ابزارهای بیشتر برای بهتر زندگی کردن')}
+    <div class="stat-grid">
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="openMoodJournal()"><div style="font-size:2rem">💜</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">دفتر حال</div><div class="card-sub" style="font-size:.75rem">امروز حالت چطوره؟</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="nav('health')"><div style="font-size:2rem">💧</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">آب و خواب</div><div class="card-sub" style="font-size:.75rem">ردیاب روزانه</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="openFlashcards()"><div style="font-size:2rem">🧠</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">فلش‌کارت</div><div class="card-sub" style="font-size:.75rem">بساز و مرور کن</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="openHabits()"><div style="font-size:2rem">🔥</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">عادت‌ها</div><div class="card-sub" style="font-size:.75rem">پیگیری روزانه</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="openNotes()"><div style="font-size:2rem">📝</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">یادداشت‌ها</div><div class="card-sub" style="font-size:.75rem">${fa(S.notes.length)} یادداشت</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="openAchievements()"><div style="font-size:2rem">🏆</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">دستاوردها</div><div class="card-sub" style="font-size:.75rem">${fa(S.achievements.length)} باز شده</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="openSearch()"><div style="font-size:2rem">🔍</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">جستجو</div><div class="card-sub" style="font-size:.75rem">بین همه‌چیز بگرد</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="openFocusMode()"><div style="font-size:2rem">🎯</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">حالت تمرکز</div><div class="card-sub" style="font-size:.75rem">فقط پومودورو</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="nav('calendar')"><div style="font-size:2rem">📅</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">تقویم</div><div class="card-sub" style="font-size:.75rem">نمای ماه شمسی</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="buddyTalk()"><div style="font-size:2rem">🌿</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">همیار مطالعه</div><div class="card-sub" style="font-size:.75rem">با هم حرف بزنیم</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="exportData()"><div style="font-size:2rem">💾</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">بکاپ</div><div class="card-sub" style="font-size:.75rem">از برنامه‌ت بگیر</div></div>
+      <div class="stat" style="cursor:pointer;text-align:center" onclick="nav('health')"><div style="font-size:2rem">🆘</div><div style="font-weight:700;font-size:.9rem;margin-top:6px">کمک فوری</div><div class="card-sub" style="font-size:.75rem">تنها نیستی</div></div>
+    </div>`;
+}
+function openMoodJournal(){
+  const recent=[...S.moods].slice(-10).reverse();
+  openModal(`
+    ${modalHead('💜','دفتر حال')}
+    <p class="card-sub" style="margin-bottom:16px">امروز حالت چطوره؟ هر جوری هستی، اینجا امنه.</p>
+    <div class="mood-row" style="margin-bottom:16px">${['😊','🙂','😐','😔','😢','😡','😴'].map(m=>`<button class="mood-btn" onclick="setMoodFromModal('${m}')">${m}</button>`).join('')}</div>
+    <div style="max-height:220px;overflow-y:auto"><div style="font-weight:700;font-size:.86rem;margin-bottom:8px">حال‌های اخیر</div>${recent.length===0?'<p class="card-sub">هنوز چیزی ثبت نکردی.</p>':recent.map(m=>`<div class="list-item"><div style="font-size:1.5rem">${m.emoji}</div><div class="body"><div class="meta"><span>${m.date}</span></div></div></div>`).join('')}</div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">بستن</button></div>
+  `);
+}
+function setMoodFromModal(m){setMood(m);closeModal();openMoodJournal()}
+
+/* ═══ FLASHCARDS ═══ */
+function openFlashcards(){
+  openModal(`
+    ${modalHead('🧠','فلش‌کارت‌ها')}
+    ${S.flashcards.length===0?'<p class="card-sub" style="margin-bottom:16px">هنوز فلش‌کارتی نساختی. یه دسته جدید بساز!</p>':S.flashcards.map((d,i)=>`<div class="flash-deck" onclick="studyDeck(${i})"><div style="display:flex;justify-content:space-between;align-items:center"><b>${d.name}</b><span class="badge">${fa(d.cards.length)} کارت</span></div></div>`).join('')}
+    <button class="btn btn-primary btn-sm" style="width:100%;margin-top:12px" onclick="newDeck()">+ دسته جدید</button>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">بستن</button></div>
+  `);
+}
+function newDeck(){const name=prompt('اسم دسته (مثلاً ریاضی فصل ۴):');if(!name)return;S.flashcards.push({id:uid(),name,cards:[]});save();openFlashcards();toast('دسته ساخته شد','🧠')}
+function studyDeck(i){
+  const deck=S.flashcards[i];
+  if(deck.cards.length===0){const q=prompt('سوال/مفهوم:');if(!q)return;const a=prompt('جواب:');if(!a)return;deck.cards.push({q,a,box:0});save();studyDeck(i);return}
+  const idx=Math.floor(Math.random()*deck.cards.length);
+  const render=()=>{
+    const c=deck.cards[idx];
+    openModal(`
+      ${modalHead('🧠',deck.name)}
+      <div class="flash-card" onclick="this.querySelector('.answer').style.display=this.querySelector('.answer').style.display==='none'?'block':'none'">
+        <span class="side">کارت ${fa(idx+1)} از ${fa(deck.cards.length)}</span>
+        <div><div>${c.q}</div><div class="answer" style="display:none;margin-top:16px;color:var(--accent);font-weight:700">${c.a}</div></div>
+      </div>
+      <p class="card-sub center" style="margin-top:12px">برای دیدن جواب، روی کارت بزن</p>
+      <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal();openFlashcards()">تمام</button><button class="btn btn-primary" onclick="nextCard(${i})">بعدی</button></div>
+    `);
+  };
+  render();
+  window.nextCard=(di)=>{const d=S.flashcards[di];const qi=Math.floor(Math.random()*d.cards.length);idx=qi;render()};
+}
+function openHabits(){
+  const defaultHabits=['هر روز ۱۰ دقیقه کتاب بخون','هر شب ۸ ساعت بخواب','روزی ۸ لیوان آب','۳۰ دقیقه ورزش'];
+  if(S.habits.length===0){S.habits=defaultHabits.map(h=>({name:h,done:{}}));save()}
+  const today=todayStr();
+  openModal(`
+    ${modalHead('🔥','عادت‌ها')}
+    <p class="card-sub" style="margin-bottom:16px">هر روز که انجام دادی، تیک بزن.</p>
+    ${S.habits.map((h,i)=>{
+      const done=h.done[today];const streak=Object.values(h.done).filter(Boolean).length;
+      return `<div class="list-item" style="cursor:pointer" onclick="toggleHabit(${i})">
+        <div style="width:36px;height:36px;border-radius:50%;background:${done?'linear-gradient(135deg,var(--accent),var(--accent-2))':'var(--surface)'};border:2px solid var(--border);display:grid;place-items:center;font-size:1.1rem;color:#fff">${done?'✓':''}</div>
+        <div class="body"><div class="ttl">${h.name}</div><div class="meta"><span>🔥 ${fa(streak)} روز</span></div></div>
+      </div>`;
+    }).join('')}
+    <button class="btn btn-primary btn-sm" style="width:100%;margin-top:12px" onclick="addHabit()">+ عادت جدید</button>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">بستن</button></div>
+  `);
+}
+function toggleHabit(i){const today=todayStr();const h=S.habits[i];h.done[today]=!h.done[today];save();openHabits();if(h.done[today])toast('آفرین! 🎉','🔥')}
+function addHabit(){const n=prompt('عادت جدید:');if(!n)return;S.habits.push({name:n,done:{}});save();openHabits()}
+
+/* ═══ NOTES ═══ */
+function openNotes(){
+  openModal(`
+    ${modalHead('📝','یادداشت‌ها')}
+    <div class="search-bar" style="margin-bottom:12px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="noteSearch" placeholder="جستجو در یادداشت‌ها..." oninput="filterNotes(this.value)">
+    </div>
+    <div id="notesList" style="max-height:400px;overflow-y:auto">
+      ${S.notes.length===0?'<p class="card-sub">هنوز یادداشتی نداری.</p>':S.notes.map((n,i)=>`<div class="note-card" onclick="editNote(${i})" data-title="${n.title}"><div class="nttl">📄 ${n.title}</div><div class="nprev">${n.body||'خالی'}</div><div class="nmeta"><span>${n.date}</span></div></div>`).join('')}
+    </div>
+    <button class="btn btn-primary btn-sm" style="width:100%;margin-top:12px" onclick="newNote()">+ یادداشت جدید</button>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">بستن</button></div>
+  `);
+}
+function filterNotes(q){$$('#notesList .note-card').forEach(it=>{it.style.display=it.dataset.title.includes(q)?'block':'none'})}
+function newNote(){const t=prompt('عنوان:');if(!t)return;const b=prompt('متن:');if(b===null)return;S.notes.push({id:uid(),title:t,body:b,date:todayStr()});save();openNotes();toast('یادداشت ذخیره شد','📝')}
+function editNote(i){const n=S.notes[i];const t=prompt('عنوان:',n.title);if(t===null)return;const b=prompt('متن:',n.body);if(b===null)return;n.title=t;n.body=b;save();openNotes()}
+
+/* ═══ ACHIEVEMENTS ═══ */
+function openAchievements(){
+  const all=[
+    {id:'first_study',ic:'🔥',ttl:'۷ روز مطالعه',desc:'۷ روز پشت‌سرهم مطالعه'},
+    {id:'100_hours',ic:'📚',ttl:'۱۰۰ ساعت',desc:'۱۰۰ ساعت تمرکز'},
+    {id:'perfect',ic:'🏆',ttl:'نمره کامل',desc:'نمره ۲۰ گرفتی'},
+    {id:'first_flash',ic:'🧠',ttl:'اولین فلش‌کارت',desc:'فلش‌کارت ساختی'},
+    {id:'water_master',ic:'💧',ttl:'استاد آب',desc:'۸ لیوان در روز'},
+    {id:'goal_hit',ic:'🎯',ttl:'هدف‌زن',desc:'اولین هدفت رو زدی'},
+    {id:'early_bird',ic:'🌅',ttl:'سحرخیز',desc:'قبل ۸ صبح مطالعه'},
+    {id:'night_owl',ic:'🌙',ttl:'شب‌زنده‌دار',desc:'بعد ۱۰ شب مطالعه'}
+  ];
+  openModal(`
+    ${modalHead('🏆','دستاوردها')}
+    <div class="stat-grid">${all.map(a=>{const unlocked=S.achievements.includes(a.id);return `<div class="achievement ${unlocked?'unlocked':'locked'}"><div class="ic">${a.ic}</div><div class="ttl">${a.ttl}</div><div class="desc">${a.desc}</div></div>`}).join('')}</div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">بستن</button></div>
+  `);
+}
+
+/* ═══ SEARCH ═══ */
+function openSearch(){
+  openModal(`
+    ${modalHead('🔍','جستجو')}
+    <div class="search-bar" style="margin-bottom:16px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="searchIn" placeholder="بین همه چیز بگرد..." oninput="doSearch(this.value)" autofocus>
+    </div>
+    <div id="searchResults"><p class="card-sub">چیزی بنویس تا جستجو کنم...</p></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">بستن</button></div>
+  `);
+  setTimeout(()=>$('#searchIn')?.focus(),100);
+}
+function doSearch(q){
+  if(!q.trim()){$('#searchResults').innerHTML='<p class="card-sub">چیزی بنویس تا جستجو کنم...</p>';return}
+  const ql=q.toLowerCase();const results=[];
+  S.school.forEach(c=>{if(c.subject.toLowerCase().includes(ql))results.push({type:'🏫 مدرسه',text:c.subject,meta:c.day})});
+  S.gym.forEach(g=>{if(g.name.toLowerCase().includes(ql))results.push({type:'🏋️ ورزش',text:g.name,meta:g.day})});
+  S.exams.forEach(e=>{if(e.subject.toLowerCase().includes(ql))results.push({type:'📝 امتحان',text:e.subject,meta:e.date||''})});
+  S.goals.forEach(g=>{if(g.title.toLowerCase().includes(ql))results.push({type:'🎯 هدف',text:g.title,meta:g.deadline||''})});
+  S.studyGoals.forEach(s=>{if(s.subject.toLowerCase().includes(ql))results.push({type:'📖 مطالعه',text:s.subject,meta:s.dl||''})});
+  S.notes.forEach(n=>{if(n.title.toLowerCase().includes(ql)||(n.body||'').toLowerCase().includes(ql))results.push({type:'📝 یادداشت',text:n.title,meta:n.date})});
+  $('#searchResults').innerHTML=results.length===0?'<p class="card-sub">چیزی پیدا نشد.</p>':results.map(r=>`<div class="list-item"><div class="bar"></div><div class="body"><div class="meta" style="color:var(--accent);font-weight:700;font-size:.72rem">${r.type}</div><div class="ttl">${r.text}</div><div class="meta"><span>${r.meta}</span></div></div></div>`).join('');
+}
+
+/* ═══ FOCUS ═══ */
+let focusSec=25*60,focusRun=false,focusInt=null;
+function openFocusMode(){$('#focusOverlay').classList.add('show');updFocus()}
+function focusClose(){$('#focusOverlay').classList.remove('show');if(focusInt)clearInterval(focusInt);focusRun=false;$('#focusBtn').textContent='شروع'}
+function focusToggle(){
+  focusRun=!focusRun;$('#focusBtn').textContent=focusRun?'توقف':'شروع';
+  if(focusRun){focusInt=setInterval(()=>{if(focusSec>0){focusSec--;updFocus()}else{clearInterval(focusInt);focusRun=false;$('#focusBtn').textContent='شروع';toast('آفرین! جلسه تموم شد 👏','🎉');confetti();focusSec=25*60;updFocus()}},1000)}
+  else clearInterval(focusInt);
+}
+function updFocus(){const m=Math.floor(focusSec/60),s=focusSec%60;$('#focusTimer').textContent=`${fa(String(m).padStart(2,'0'))}:${fa(String(s).padStart(2,'0'))}`}
+
+/* ═══ BUDDY (همیار مطالعه) ═══ */
+const buddyLines=[
+  'آفرین! داری عالی پیش می‌ری! 🌟',
+  'یه قدم کوچیک هم قدمه. ادامه بده! 💪',
+  'خسته شدی؟ یه استراحت کوتاه بکن. 🌿',
+  'امروز روز خوبیه برای شروع دوباره. ✨',
+  'به خودت افتخار کن. داری تلاش می‌کنی. 💜',
+  'یادت نره آب بخوری! 💧',
+  'من اینجام کنارت. تو تنها نیستی. 🌿',
+  'کم‌کم بهتر می‌شی. مهم ادامه دادنه. 🚀',
+  'یه نفس عمیق بکش و ادامه بده. 🌱'
+];
+function buddyTalk(){
+  const b=$('#buddyBubble');
+  b.textContent=buddyLines[Math.floor(Math.random()*buddyLines.length)];
+  b.classList.add('show');
+  clearTimeout(window._buddyTimer);
+  window._buddyTimer=setTimeout(()=>b.classList.remove('show'),4000);
+}
+
+/* ═══ STATS ═══ */
+let chartInst=null;
+function renderStats(){
+  return `${pageHead('📊','آمار و تحلیل','پیشرفتت رو ببین')}
+    <div class="card glass"><div class="card-title"><span class="dot"></span>ساعت مطالعه هفتگی</div><div class="chart-box"><canvas id="studyChart"></canvas></div></div>
+    <div class="card glass"><div class="card-title"><span class="dot"></span>نقشه فعالیت</div><div class="heat" style="margin-top:16px">${Array.from({length:49},()=>{const lv=Math.floor(Math.random()*5);return `<div class="heat-cell ${lv>0?'l'+lv:''}"></div>`}).join('')}</div></div>
+    <div class="card glass"><div class="card-title"><span class="dot"></span>خلاصه آماری</div><div class="stat-grid" style="margin-top:12px">
+      <div class="stat"><div class="stat-val">${fa(S.pomodoros.length)}</div><div class="stat-lbl">جلسه تمرکز</div></div>
+      <div class="stat"><div class="stat-val">${fa(S.exams.length)}</div><div class="stat-lbl">امتحان ثبت‌شده</div></div>
+      <div class="stat"><div class="stat-val">${fa(S.goals.length)}</div><div class="stat-lbl">هدف</div></div>
+      <div class="stat"><div class="stat-val">${fa(S.school.length)}</div><div class="stat-lbl">زنگ مدرسه</div></div>
+    </div></div>`;
+}
+function afterStats(){
+  const ctx=$('#studyChart');if(!ctx)return;
+  if(chartInst)chartInst.destroy();
+  const cs=getComputedStyle(document.body);
+  const accent=cs.getPropertyValue('--accent').trim();
+  const text2=cs.getPropertyValue('--text-2').trim();
+  chartInst=new Chart(ctx,{type:'bar',data:{labels:['شنبه','یک','دو','سه','چهار','پنج','جمعه'],datasets:[{label:'ساعت',data:[2.5,3,1.5,4,2,3.5,1],backgroundColor:accent+'aa',borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(128,128,128,.1)'},ticks:{color:text2}},x:{grid:{display:false},ticks:{color:text2}}}}});
+}
+
+/* ═══ PROFILE (حساب کاربری) ═══ */
+function renderProfile(){
+  const p=S.profile;
+  const initials=(p.name||'؟').trim().split(/\s+/).map(w=>w[0]||'').slice(0,2).join('')||'؟';
+  const ageText=p.age?`${fa(p.age)} سال`:'—';
+  const birthText=p.birth?fmtJ(p.birth[0],p.birth[1],p.birth[2]):'—';
+  const genderText=p.gender==='male'?'پسر':p.gender==='female'?'دختر':p.gender==='trans'?'ترنس':'—';
+  const orderText={first:'فرزند اول',second:'فرزند دوم',third:'فرزند سوم',fourth:'فرزند چهارم',other:'سایر'}[p.order]||'—';
+  return `
+    ${pageHead('👤','حساب کاربری','اطلاعاتت رو اینجا ببین و ویرایش کن')}
+    <div class="profile-head">
+      <div class="profile-avatar">${initials}</div>
+      <div class="profile-info">
+        <h2>${p.name||'بدون نام'}</h2>
+        <div class="meta">
+          <span>🎂 ${birthText}</span>
+          <span>🎓 ${p.grade||'—'}</span>
+          ${p.field?`<span>📚 ${p.field}</span>`:''}
+        </div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="modalEditProfile()">✏️ ویرایش</button>
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>اطلاعات شخصی</div>
+      <div style="margin-top:12px">
+        <div class="info-row"><span class="lbl">👤 نام کامل</span><span class="val">${p.name||'—'}</span></div>
+        <div class="info-row"><span class="lbl">🎂 تاریخ تولد (شمسی)</span><span class="val">${birthText}</span></div>
+        <div class="info-row"><span class="lbl">📅 سن</span><span class="val">${ageText}</span></div>
+        <div class="info-row"><span class="lbl">⚧ جنسیت</span><span class="val">${genderText}</span></div>
+        <div class="info-row"><span class="lbl">👨‍👩‍👧 تعداد خواهر و برادر</span><span class="val">${fa(p.siblings||0)} نفر</span></div>
+        <div class="info-row"><span class="lbl">👶 جایگاه در خانواده</span><span class="val">${orderText}</span></div>
+      </div>
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>اطلاعات تحصیلی</div>
+      <div style="margin-top:12px">
+        <div class="info-row"><span class="lbl">🎓 پایه تحصیلی</span><span class="val">${p.grade||'—'}</span></div>
+        <div class="info-row"><span class="lbl">📚 رشته</span><span class="val">${p.field||'—'}</span></div>
+        <div class="info-row"><span class="lbl">🏫 مدرسه</span><span class="val">${p.school||'—'}</span></div>
+        <div class="info-row"><span class="lbl">📍 شهر</span><span class="val">${p.city||'—'}</span></div>
+      </div>
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>خلاصه فعالیت</div>
+      <div class="stat-grid" style="margin-top:12px">
+        <div class="stat"><div class="stat-val">${fa(S.pomodoros.length)}</div><div class="stat-lbl">جلسه تمرکز</div></div>
+        <div class="stat"><div class="stat-val">${fa(S.exams.length)}</div><div class="stat-lbl">امتحان</div></div>
+        <div class="stat"><div class="stat-val">${fa(S.goals.length)}</div><div class="stat-lbl">هدف</div></div>
+        <div class="stat"><div class="stat-val">${fa(S.notes.length)}</div><div class="stat-lbl">یادداشت</div></div>
+      </div>
+    </div>
+  `;
+}
+function modalEditProfile(){
+  const p=S.profile;
+  const years=[];for(let y=1370;y<=1395;y++)years.push(y);
+  openModal(`
+    ${modalHead('✏️','ویرایش حساب کاربری')}
+    <div class="field"><input type="text" id="edName" value="${p.name||''}" placeholder=" " autocomplete="off"><label>نام کامل</label></div>
+    <div class="row gap-lg">
+      <div class="field flex-1"><select id="edYear">${years.map(y=>`<option value="${y}" ${p.birth&&p.birth[0]===y?'selected':''}>${fa(y)}</option>`).join('')}</select><label>سال تولد</label></div>
+      <div class="field flex-1"><select id="edMonth">${MONTHS.map((m,i)=>`<option value="${i+1}" ${p.birth&&p.birth[1]===i+1?'selected':''}>${m}</option>`).join('')}</select><label>ماه</label></div>
+      <div class="field flex-1"><select id="edDay">${Array.from({length:31},(_,i)=>i+1).map(d=>`<option value="${d}" ${p.birth&&p.birth[2]===d?'selected':''}>${fa(d)}</option>`).join('')}</select><label>روز</label></div>
+    </div>
+    <div class="field"><select id="edGender">
+      <option value="male" ${p.gender==='male'?'selected':''}>👦 پسر</option>
+      <option value="female" ${p.gender==='female'?'selected':''}>👧 دختر</option>
+      <option value="trans" ${p.gender==='trans'?'selected':''}>🌈 ترنس</option>
+    </select><label>جنسیت</label></div>
+    <div class="row gap-lg">
+      <div class="field flex-1"><input type="number" id="edSib" min="0" max="15" value="${p.siblings||0}" placeholder=" "><label>تعداد خواهر/برادر</label></div>
+      <div class="field flex-1"><select id="edOrder">
+        <option value="first" ${p.order==='first'?'selected':''}>فرزند اول</option>
+        <option value="second" ${p.order==='second'?'selected':''}>فرزند دوم</option>
+        <option value="third" ${p.order==='third'?'selected':''}>فرزند سوم</option>
+        <option value="fourth" ${p.order==='fourth'?'selected':''}>فرزند چهارم</option>
+        <option value="other" ${p.order==='other'?'selected':''}>سایر</option>
+      </select><label>جایگاه</label></div>
+    </div>
+    <div class="field"><select id="edGrade">${['هفتم','هشتم','نهم','دهم','یازدهم','دوازدهم','فارغ‌التحصیل','دانشگاه'].map(g=>`<option value="${g}" ${p.grade===g?'selected':''}>${g}</option>`).join('')}</select><label>پایه تحصیلی</label></div>
+    <div class="field"><select id="edField"><option value="">— انتخاب کن —</option>${['ریاضی و فیزیک','علوم تجربی','علوم انسانی','فنی‌وحرفه‌ای','هنر','سایر'].map(f=>`<option value="${f}" ${p.field===f?'selected':''}>${f}</option>`).join('')}</select><label>رشته</label></div>
+    <div class="field"><input type="text" id="edSchool" value="${p.school||''}" placeholder=" "><label>مدرسه (اختیاری)</label></div>
+    <div class="field"><input type="text" id="edCity" value="${p.city||''}" placeholder=" "><label>شهر (اختیاری)</label></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="saveProfile()">ذخیره تغییرات</button></div>
+  `);
+}
+function saveProfile(){
+  const p=S.profile;
+  p.name=$('#edName').value.trim();
+  p.birth=[+$('#edYear').value,+$('#edMonth').value,+$('#edDay').value];
+  const newGender=$('#edGender').value;
+  if(p.gender!==newGender){p.gender=newGender;if(newGender==='female')S.theme='female';else if(newGender==='male')S.theme='male';else S.theme='neutral';document.body.dataset.theme=S.theme}
+  p.siblings=+$('#edSib').value||0;
+  p.order=$('#edOrder').value;
+  p.grade=$('#edGrade').value;
+  p.field=$('#edField').value;
+  p.school=$('#edSchool').value.trim();
+  p.city=$('#edCity').value.trim();
+  // Auto-calc age from birth year (approx)
+  if(p.birth[0])p.age=TODAY[0]-p.birth[0]-(TODAY[1]<p.birth[1]?1:0);
+  save();closeModal();renderPage();toast('اطلاعات به‌روز شد','✅');
+}
+
+/* ═══ SETTINGS ═══ */
+function renderSettings(){
+  return `${pageHead('⚙️','تنظیمات','برنامه‌ت رو شخصی‌سازی کن')}
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>رنگ برنامه</div>
+      <div class="opt-grid" style="margin-top:12px">
+        <div class="opt ${S.theme==='female'?'sel':''}" onclick="changeTheme('female')"><div class="ic">🌸</div><div class="lbl">رز</div></div>
+        <div class="opt ${S.theme==='male'?'sel':''}" onclick="changeTheme('male')"><div class="ic">🌊</div><div class="lbl">اقیانوس</div></div>
+        <div class="opt ${S.theme==='neutral'?'sel':''}" onclick="changeTheme('neutral')"><div class="ic">🌈</div><div class="lbl">شفق</div></div>
+      </div>
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>امنیت</div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn btn-ghost btn-sm" onclick="changePinModal()">🔐 تغییر پین</button>
+        <button class="btn btn-ghost btn-sm" onclick="changeSecQModal()">🔑 سوال امنیتی</button>
+      </div>
+    </div>
+    <div class="card glass">
+      <div class="card-title"><span class="dot"></span>داده‌ها</div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn btn-ghost btn-sm" onclick="exportData()">📤 خروجی</button>
+        <button class="btn btn-ghost btn-sm" onclick="importDataModal()">📥 ورودی</button>
+        <button class="btn btn-danger btn-sm" onclick="resetAll()">🗑️ بازنشانی</button>
+      </div>
+    </div>
+    <div class="card glass center">
+      <div style="font-size:1.3rem;font-weight:800;letter-spacing:-.02em">🌿 مِهرگان</div>
+      <p style="color:var(--text-2);font-size:.86rem;margin-top:6px">برنامه‌ریز شخصی برای دانش‌آموزان</p>
+      <p style="color:var(--text-3);font-size:.78rem;margin-top:12px">
+        <b style="color:var(--text-2)">سازنده:</b> الیاس بادیاب<br>
+        نسخه ۱.۰
+      </p>
+    </div>`;
+}
+function changeTheme(t){S.theme=t;document.body.dataset.theme=t;save();renderPage();toast('تم تغییر کرد','🎨')}
+function changePinModal(){
+  openModal(`
+    ${modalHead('🔐','تغییر پین')}
+    <div class="field"><input type="password" id="oldPin" inputmode="numeric" maxlength="4" placeholder=" "><label>پین فعلی</label></div>
+    <div class="field"><input type="password" id="newPin" inputmode="numeric" maxlength="4" placeholder=" "><label>پین جدید (۴ رقم)</label></div>
+    <div class="field"><input type="password" id="newPin2" inputmode="numeric" maxlength="4" placeholder=" "><label>تکرار پین جدید</label></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="saveNewPin()">ذخیره</button></div>
+  `);
+}
+function saveNewPin(){
+  const oldP=en($('#oldPin').value),nP=en($('#newPin').value),nP2=en($('#newPin2').value);
+  if(hash(oldP)!==S.pin){toast('پین فعلی اشتباهه','❌');return}
+  if(nP.length!==4||!/^\d{4}$/.test(nP)){toast('پین باید ۴ رقم باشه','⚠️');return}
+  if(nP!==nP2){toast('پین‌ها یکسان نیستن','⚠️');return}
+  S.pin=hash(nP);save();closeModal();toast('پین تغییر کرد','🔐');
+}
+function changeSecQModal(){
+  openModal(`
+    ${modalHead('🔑','سوال امنیتی')}
+    <div class="field"><select id="sqSel">${['اسم اولین مدرسه‌ت چی بود؟','اسم حیوان خانگیت چی بود؟','شهر تولدت کجاست؟','اسم بهترین دوستت چیه؟'].map(q=>`<option value="${q}">${q}</option>`).join('')}</select><label>سوال</label></div>
+    <div class="field"><input type="text" id="sqAns" placeholder=" "><label>پاسخ</label></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="saveSecQ()">ذخیره</button></div>
+  `);
+}
+function saveSecQ(){S.secQ=$('#sqSel').value;S.secA=$('#sqAns').value.trim();save();closeModal();toast('سوال امنیتی ذخیره شد','🔑')}
+function resetAll(){if(!confirm('همه داده‌ها پاک بشه؟ این عمل برگشت‌پذیر نیست!'))return;if(!confirm('مطمئنی؟'))return;localStorage.removeItem(SK+'state');location.reload()}
+function exportData(){
+  const data={state:S,exported:new Date().toISOString(),version:'1.0'};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download=`mehregan-backup-${todayStr().replace(/\s/g,'-')}.json`;a.click();URL.revokeObjectURL(url);
+  toast('بکاپ دانلود شد','💾');
+}
+function importDataModal(){
+  openModal(`
+    ${modalHead('📥','ورودی داده')}
+    <p class="card-sub" style="margin-bottom:16px">فایل JSON بکاپ رو انتخاب کن. توجه: داده‌های فعلی جایگزین می‌شن.</p>
+    <input type="file" id="importFile" accept=".json" style="padding:12px;border-radius:14px;background:var(--surface-2);border:1.5px solid var(--border);color:var(--text);font-family:inherit;width:100%">
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal()">لغو</button><button class="btn btn-primary" onclick="doImport()">بارگذاری</button></div>
+  `);
+}
+function doImport(){
+  const f=$('#importFile').files[0];if(!f){toast('فایل انتخاب کن','⚠️');return}
+  const r=new FileReader();
+  r.onload=e=>{try{const d=JSON.parse(e.target.result);if(d.state){S={...defState,...d.state};save();closeModal();toast('داده‌ها بارگذاری شد','📥');location.reload()}else toast('فایل نامعتبره','❌')}catch(err){toast('خطا در خواندن فایل','❌')}};
+  r.readAsText(f);
+}
+
+/* ═══ FLOATING WINDOWS ═══ */
+let pomoWin=null,notesWin=null;
+function openPomodoro(){
+  if(pomoWin&&!pomoWin.closed){pomoWin.focus();return}
+  pomoWin=window.open('','pomo','width=400,height=560,menubar=no,toolbar=no,location=no,status=no');
+  if(!pomoWin){toast('پاپ‌آپ رو فعال کن','⚠️');return}
+  const mode=S.mode;
+  pomoWin.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>🍅 تمرکز</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:${mode==='dark'?'#0a0f1e':'#f0f4ff'};color:${mode==='dark'?'#f1f5f9':'#0f172a'};font-family:'Vazirmatn',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .box{text-align:center;width:100%}
+    .ring{position:relative;width:230px;height:230px;margin:0 auto 24px}
+    .ring svg{transform:rotate(-90deg)}
+    .time{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.8rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+    .modes{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+    .modes button{padding:8px 18px;border-radius:999px;border:1px solid rgba(148,163,184,.2);background:${mode==='dark'?'rgba(30,41,59,.5)':'rgba(255,255,255,.6)'};color:${mode==='dark'?'#94a3b8':'#475569'};font-family:inherit;font-weight:600;font-size:.85rem;cursor:pointer;transition:all .2s}
+    .modes button.on{background:linear-gradient(135deg,#60a5fa,#818cf8);color:#fff;border-color:transparent}
+    .actions{display:flex;gap:10px;justify-content:center;margin-top:20px}
+    .actions button{padding:14px 32px;border-radius:999px;border:none;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s}
+    #start{background:linear-gradient(135deg,#60a5fa,#818cf8);color:#fff;box-shadow:0 8px 24px -8px rgba(96,165,250,.6)}
+    #reset{background:${mode==='dark'?'rgba(30,41,59,.6)':'rgba(255,255,255,.6)'};color:${mode==='dark'?'#f1f5f9':'#0f172a'};border:1px solid rgba(148,163,184,.2)}
+    .sub{color:${mode==='dark'?'#64748b':'#94a3b8'};font-size:.82rem;margin-top:16px}
+  </style></head><body><div class="box">
+    <div class="modes"><button class="on" onclick="setMode(25,this)">۲۵ دقیقه</button><button onclick="setMode(50,this)">۵۰ دقیقه</button><button onclick="setMode(15,this)">۱۵ دقیقه</button></div>
+    <div class="ring">
+      <svg width="230" height="230" viewBox="0 0 230 230">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#818cf8"/></linearGradient></defs>
+        <circle cx="115" cy="115" r="100" fill="none" stroke="rgba(148,163,184,.15)" stroke-width="10"/>
+        <circle id="fg" cx="115" cy="115" r="100" fill="none" stroke="url(#g)" stroke-width="10" stroke-linecap="round" stroke-dasharray="628" stroke-dashoffset="0"/>
+      </svg>
+      <div class="time" id="t">۲۵:۰۰</div>
+    </div>
+    <div class="actions"><button id="start" onclick="toggle()">شروع</button><button id="reset" onclick="reset()">ریست</button></div>
+    <p class="sub" id="sub">آماده‌ای تمرکز کنی؟</p>
+  </div><script>
+    let total=25*60,left=total,run=false,timer=null;
+    const C=2*Math.PI*100;
+    function upd(){const m=Math.floor(left/60),s=left%60;
+      document.getElementById('t').textContent=String(m).padStart(2,'0').replace(/\\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d])+':'+String(s).padStart(2,'0').replace(/\\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+      document.getElementById('fg').style.strokeDashoffset=C*(1-left/total);}
+    function toggle(){run=!run;document.getElementById('start').textContent=run?'توقف':'شروع';
+      document.getElementById('sub').textContent=run?'در حال تمرکز... 🌿':'آماده‌ای تمرکز کنی؟';
+      if(run){timer=setInterval(()=>{if(left>0){left--;upd()}else{clearInterval(timer);run=false;document.getElementById('start').textContent='شروع';document.getElementById('sub').textContent='آفرین! تموم شد 👏';
+        if(window.opener){try{window.opener.recordPomodoro(total/60)}catch(e){}}
+        alert('آفرین! جلسه تمرکز تموم شد 👏')}},1000)}
+      else clearInterval(timer);}
+    function reset(){clearInterval(timer);run=false;left=total;document.getElementById('start').textContent='شروع';document.getElementById('sub').textContent='آماده‌ای تمرکز کنی؟';upd();}
+    function setMode(m,el){total=m*60;left=total;document.querySelectorAll('.modes button').forEach(b=>b.classList.remove('on'));el.classList.add('on');reset();}
+    upd();
+  <\/script></body></html>`);
+  pomoWin.document.close();
+  toast('تایمر تمرکز باز شد','🍅');
+}
+function recordPomodoro(min){
+  const today=todayStr();
+  S.pomodoros.push({id:uid(),date:today,min:Math.round(min),subject:''});
+  save();
+  toast('جلسه تمرکز ثبت شد','🍅');
+  if(currentPage==='dashboard'||currentPage==='study'||currentPage==='profile'||currentPage==='stats')renderPage();
+}
+
+function openQuickNotes(){
+  if(notesWin&&!notesWin.closed){notesWin.focus();return}
+  notesWin=window.open('','notes','width=420,height=520,menubar=no,toolbar=no,location=no,status=no');
+  if(!notesWin){toast('پاپ‌آپ رو فعال کن','⚠️');return}
+  const saved=localStorage.getItem(SK+'quicknotes')||'';
+  const mode=S.mode;
+  notesWin.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>📝 یادداشت سریع</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:${mode==='dark'?'#0a0f1e':'#f0f4ff'};color:${mode==='dark'?'#f1f5f9':'#0f172a'};font-family:'Vazirmatn',sans-serif;padding:24px;min-height:100vh;display:flex;flex-direction:column}
+    h2{font-size:1.1rem;margin-bottom:14px}
+    textarea{flex:1;width:100%;padding:18px;border-radius:20px;border:1.5px solid rgba(148,163,184,.2);background:${mode==='dark'?'rgba(30,41,59,.55)':'rgba(255,255,255,.7)'};color:inherit;font-family:inherit;font-size:.95rem;line-height:1.9;resize:none;outline:none}
+    textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 4px rgba(96,165,250,.2)}
+    .foot{display:flex;gap:10px;margin-top:14px}
+    button{padding:12px 24px;border-radius:999px;border:none;font-family:inherit;font-weight:700;cursor:pointer;font-size:.9rem}
+    .save{background:linear-gradient(135deg,#60a5fa,#818cf8);color:#fff}
+    .clear{background:${mode==='dark'?'rgba(30,41,59,.6)':'rgba(255,255,255,.6)'};color:inherit;border:1px solid rgba(148,163,184,.2)}
+    .status{color:#34d399;font-size:.82rem;margin-top:10px;opacity:0;transition:opacity .3s}
+    .status.on{opacity:1}
+  </style></head><body>
+    <h2>📝 یادداشت سریع</h2>
+    <textarea id="t" placeholder="هر چی می‌خوای اینجا بنویس...">${saved.replace(/</g,'&lt;')}</textarea>
+    <div class="foot"><button class="save" onclick="save()">💾 ذخیره</button><button class="clear" onclick="clearAll()">پاک کن</button></div>
+    <div class="status" id="st">ذخیره شد ✅</div>
+  <script>
+    function save(){localStorage.setItem('mehregan_v1_quicknotes',document.getElementById('t').value);const s=document.getElementById('st');s.classList.add('on');setTimeout(()=>s.classList.remove('on'),1500)}
+    function clearAll(){if(confirm('پاک بشه؟')){document.getElementById('t').value='';save()}}
+    document.getElementById('t').addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='s'){e.preventDefault();save()}})
+  <\/script></body></html>`);
+  notesWin.document.close();
+  toast('یادداشت باز شد','📝');
+}
+
+/* ═══ THEME / LANG ═══ */
+function toggleMode(){S.mode=S.mode==='dark'?'light':'dark';document.body.dataset.mode=S.mode;save();toast(S.mode==='dark'?'حالت تاریک 🌙':'حالت روشن ☀️','🎨')}
+function toggleLang(){S.lang=S.lang==='fa'?'en':'fa';save();$('#langBtn').textContent=S.lang==='fa'?'EN':'FA';document.documentElement.dir=S.lang==='fa'?'rtl':'ltr';document.documentElement.lang=S.lang;toast(S.lang==='fa'?'زبان فارسی':'English mode','🌐')}
+
+/* ═══ QUICK ADD ═══ */
+function quickAdd(){
+  openModal(`
+    ${modalHead('➕','افزودن سریع')}
+    <div class="opt-grid">
+      <div class="opt" onclick="closeModal();modalAddSchool()"><div class="ic">🏫</div><div class="lbl">زنگ مدرسه</div></div>
+      <div class="opt" onclick="closeModal();modalAddGym()"><div class="ic">🏋️</div><div class="lbl">ورزش</div></div>
+      <div class="opt" onclick="closeModal();modalAddStudy()"><div class="ic">📚</div><div class="lbl">هدف مطالعه</div></div>
+      <div class="opt" onclick="closeModal();modalAddExam()"><div class="ic">📝</div><div class="lbl">امتحان</div></div>
+      <div class="opt" onclick="closeModal();modalAddGoal()"><div class="ic">🎯</div><div class="lbl">هدف</div></div>
+      <div class="opt" onclick="closeModal();newNote()"><div class="ic">📄</div><div class="lbl">یادداشت</div></div>
+    </div>
+  `);
+}
+
+/* ═══ SHOW APP ═══ */
+function showApp(){
+  $('#header').classList.remove('hidden');
+  $('#shell').classList.remove('hidden');
+  $('#bottomNav').classList.remove('hidden');
+  $('#fab').classList.remove('hidden');
+  $('#buddyBtn').classList.remove('hidden');
+  buildNav();
+  nav('dashboard');
+  setTimeout(()=>buddyTalk(),2000);
+}
+
+/* ═══ INIT ═══ */
+function init(){
+  load();
+  document.body.dataset.theme=S.theme;
+  document.body.dataset.mode=S.mode;
+  document.documentElement.dir=S.lang==='fa'?'rtl':'ltr';
+  buildKeypad();
+  if(S.pin){$('#pinTitle').textContent='سلام، خوش برگشتی';$('#pinSub').textContent='پین ۴ رقمی خودت رو وارد کن';$('#pinEmoji').textContent='🔐'}
+  else{isSetup=true;$('#pinTitle').textContent='یه پین بساز';$('#pinSub').textContent='پین ۴ رقمی برای محافظت از اطلاعاتت';$('#pinEmoji').textContent='🔒'}
+  setInterval(save,30000);
+  document.addEventListener('keydown',e=>{
+    if(e.ctrlKey&&e.key>='1'&&e.key<='9'){e.preventDefault();const idx=+e.key-1;if(PAGES[idx])nav(PAGES[idx].id)}
+    if(e.key==='Escape')closeModal();
+  });
+}
+init();
+
+console.log('%c🌿 مِهرگان','font-size:20px;font-weight:800;color:#60a5fa');
+console.log('%cبرنامه‌ریز شخصی — ساخته‌شده با 💜 توسط الیاس بادیاب','font-size:12px;color:#94a3b8');
+</script>
+</body>
+</html>
